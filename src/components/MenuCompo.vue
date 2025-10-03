@@ -4,7 +4,7 @@ defineProps({
     type: String,
     required: true,
   },
-  menuElement: {
+  nameElement: {
     type: String,
     required: true,
   },
@@ -19,7 +19,7 @@ defineProps({
   <div class="div_menu_choice">
     <a :href="hrefElement">
       <span v-html="svg"></span>
-      {{ menuElement }}
+      {{ nameElement }}
     </a>
   </div>
 </template>
