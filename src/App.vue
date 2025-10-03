@@ -4,7 +4,10 @@ import NavbarCompo from './NavbarCompo.vue';
 
 //import { ref, computed } from 'vue'
 import MenuCompo from './components/MenuCompo.vue'
-import { menuItemVolunteer } from './assets/elements'
+import FormLayout from './components/FormLayout.vue'
+//import { menuItemVolunteer } from './assets/elements'
+import { menuItemAdmin } from './assets/elements'
+import { formLayoutCreationVolunteer } from './assets/elements'
 //import Collect from './Collect.vue'
 //import Donation from './Daonation.vue'
 //import Profil from './Profil.vue'
@@ -27,12 +30,18 @@ import { menuItemVolunteer } from './assets/elements'
  </header>
   <div class="card-header">
     <MenuCompo
-      v-for="item in menuItemVolunteer"
+      v-for="item in menuItemAdmin"
       :key="item.id"
       :svg="item.svg"
-      :menuElement="item.nameElement"
+      :nameElement="item.nameElement"
     />
   </div>
+  <FormLayout
+    :title="'Ajouter un.e bénévole'"
+    :fields="formLayoutCreationVolunteer"
+    :button1="'Ajouter'"
+    :button2="'Annuler'"
+  />
 </template>
 
 <style scoped>
