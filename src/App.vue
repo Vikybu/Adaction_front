@@ -1,4 +1,7 @@
 <script setup>
+import FooterCompo from './FooterCompo.vue';
+import NavbarCompo from './NavbarCompo.vue';
+
 //import { ref, computed } from 'vue'
 import MenuCompo from './components/MenuCompo.vue'
 import { menuItemVolunteer } from './assets/elements'
@@ -18,6 +21,10 @@ import { menuItemVolunteer } from './assets/elements'
 </script>
 
 <template>
+   <header>
+  <NavbarCompo />
+  <FooterCompo />
+ </header>
   <div class="card-header">
     <MenuCompo
       v-for="item in menuItemVolunteer"
