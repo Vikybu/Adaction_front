@@ -1,13 +1,14 @@
 <script setup>
-import FooterCompo from './FooterCompo.vue';
-import NavbarCompo from './NavbarCompo.vue';
+import FooterCompo from './FooterCompo.vue'
+import NavbarCompo from './NavbarCompo.vue'
 
 //import { ref, computed } from 'vue'
 import MenuCompo from './components/MenuCompo.vue'
-import FormLayout from './components/FormLayout.vue'
+
 //import { menuItemVolunteer } from './assets/elements'
 import { menuItemAdmin } from './assets/elements'
-import { formLayoutCreationVolunteer } from './assets/elements'
+
+import VolunteerManagement from './components/VolunteerManagement.vue'
 //import Collect from './Collect.vue'
 //import Donation from './Daonation.vue'
 //import Profil from './Profil.vue'
@@ -24,10 +25,9 @@ import { formLayoutCreationVolunteer } from './assets/elements'
 </script>
 
 <template>
-   <header>
-  <NavbarCompo />
-  <FooterCompo />
- </header>
+  <header>
+    <NavbarCompo />
+  </header>
   <div class="card-header">
     <MenuCompo
       v-for="item in menuItemAdmin"
@@ -36,12 +36,9 @@ import { formLayoutCreationVolunteer } from './assets/elements'
       :nameElement="item.nameElement"
     />
   </div>
-  <FormLayout
-    :title="'Ajouter un.e bénévole'"
-    :fields="formLayoutCreationVolunteer"
-    :button1="'Ajouter'"
-    :button2="'Annuler'"
-  />
+  <VolunteerManagement />
+
+  <FooterCompo />
 </template>
 
 <style scoped>

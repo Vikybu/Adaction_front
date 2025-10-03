@@ -1,4 +1,6 @@
 <script setup>
+const emit = defineEmits(['cancel'])
+
 defineProps({
   title: {
     type: String,
@@ -29,7 +31,9 @@ defineProps({
       </label>
     </div>
     <button class="button1" type="submit">{{ button1 }}</button>
-    <button class="button2" type="button">{{ button2 }}</button>
+    <button @click="emit('cancel')" class="button2" type="button">
+      {{ button2 }}
+    </button>
   </form>
 </template>
 
