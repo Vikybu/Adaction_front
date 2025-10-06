@@ -1,33 +1,22 @@
 <script setup>
 import FooterCompo from './FooterCompo.vue'
 import NavbarCompo from './NavbarCompo.vue'
+import MenuCompo from './components/MenuCompo.vue'
 
 //import { ref, computed } from 'vue'
-import MenuCompo from './components/MenuCompo.vue'
 
 //import { menuItemVolunteer } from './assets/elements'
 import { menuItemAdmin } from './assets/elements'
 
 import VolunteerManagement from './components/VolunteerManagement.vue'
-//import Collect from './Collect.vue'
-//import Donation from './Daonation.vue'
-//import Profil from './Profil.vue'
-
-//const currentPath = ref(window.location.hash)
-
-//window.addEventListener('hashchange', () => {
-//  currentPath.value = window.location.hash
-//})
-
-//const currentView = computed(() => {
-//  return routes[currentPath.value.slice(1) || '/'] || NotFound
-//})
+import ConnexionCompo from './components/ConnexionCompo.vue'
 </script>
 
 <template>
   <header>
     <NavbarCompo />
   </header>
+  <ConnexionCompo />
   <div class="card-header">
     <MenuCompo
       v-for="item in menuItemAdmin"
@@ -51,5 +40,6 @@ import VolunteerManagement from './components/VolunteerManagement.vue'
   justify-content: center;
   text-align: center;
   gap: 5%;
+  margin-top: 2%;
 }
 </style>

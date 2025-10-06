@@ -10,7 +10,7 @@ const currentView = ref('management')
 
 <template>
   <div v-if="currentView === 'management'">
-    <button @click="currentView = 'form'">
+    <button class="btn_add_volunteer" @click="currentView = 'form'">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -30,11 +30,12 @@ const currentView = ref('management')
       </svg>
       Ajouter un bénévole
     </button>
-
-    <input type="text" placeholder="Rechercher un.e bénévole" />
-    <select>
-      <option>Toutes les villes</option>
-    </select>
+    <div class="div_volunteer_city_filter">
+      <input type="text" placeholder="Rechercher un.e bénévole" />
+      <select class="city_selector">
+        <option>Toutes les villes</option>
+      </select>
+    </div>
 
     <DisplayVolunteer />
   </div>
@@ -50,4 +51,34 @@ const currentView = ref('management')
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.btn_add_volunteer {
+  margin-top: 5%;
+  font-family: 'Helvetica', 'sans-serif';
+  color: white;
+  font-size: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.5rem;
+  background-color: var(--primary-color);
+  height: 50px;
+  width: 90%;
+  align-items: center;
+}
+
+svg button {
+  vertical-align: middle;
+}
+
+.div_volunteer_city_filter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3%;
+}
+
+input[type='text'],
+select {
+  width: 40%;
+}
+</style>

@@ -37,5 +37,6 @@ a {
 .div_menu_choice :hover {
   color: var(--primary-color);
   cursor: pointer;
+  margin-top: 3%;
 }
 </style>
