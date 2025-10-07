@@ -52,7 +52,7 @@ function removeAMonth() {
 <template>
   <h1>Bonjour Phoebe !</h1>
   <div class="div_date_choice">
-    <button @click="removeAMonth"><</button>
+    <button @click="removeAMonth">&lt;</button>
     <p>{{ month }} {{ year }}</p>
     <button @click="addAMonth(nbMonth, nbYear)">></button>
   </div>

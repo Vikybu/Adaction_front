@@ -4,7 +4,7 @@ export let menuItemAdmin = [
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
-        viewBox="0 0 26 26"
+        viewBox="0 0 28 28"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -23,8 +23,8 @@ export let menuItemAdmin = [
   },
   {
     svg: `<svg xmlns="http://www.w3.org/2000/svg"
-      width="24" height="24"
-      viewBox="0 0 24 24"
+      width="20" height="20"
+      viewBox="0 0 28 28"
       fill="none"
       stroke="currentColor"
       stroke-width="2"
@@ -48,7 +48,7 @@ export let menuItemVolunteer = [
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
-        viewBox="0 0 26 26"
+        viewBox="0 0 28 28"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -63,14 +63,14 @@ export let menuItemVolunteer = [
         <path d="M5 21h14" />
       </svg>`,
     nameElement: 'Dashboard',
-    hrefElement: '#/dashboard',
+    page: '/volunteer/dashboard',
   },
   {
     svg: `<svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
-        viewBox="0 0 26 26"
+        viewBox="0 0 28 28"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -86,14 +86,14 @@ export let menuItemVolunteer = [
         <path d="m7.5 4.27 9 5.15" />
       </svg>`,
     nameElement: 'Collectes',
-    hrefElement: '#/collectes',
+    page: '/volunteer/collect',
   },
   {
     svg: `<svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
-        viewBox="0 0 26 26"
+        viewBox="0 0 28 28"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -106,14 +106,14 @@ export let menuItemVolunteer = [
         />
       </svg>`,
     nameElement: 'Dons',
-    hrefElement: '#/donation',
+    page: '/volunteer/donation',
   },
   {
     svg: `<svg
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
-        viewBox="0 0 26 26"
+        viewBox="0 0 28 28"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -125,7 +125,7 @@ export let menuItemVolunteer = [
         <circle cx="12" cy="7" r="4" />
       </svg>`,
     nameElement: 'Profil',
-    hrefElement: '#/profil',
+    page: '/volunteer/profile',
   },
 ]
 

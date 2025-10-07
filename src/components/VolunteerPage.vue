@@ -1,33 +1,27 @@
 <script setup>
+import { menuItemVolunteer } from '@/assets/elements'
+
 import MenuCompo from './MenuCompo.vue'
-import VolunteerManagement from './VolunteerManagement.vue'
-
-import { menuItemAdmin } from '@/assets/elements'
-
-/*
-const currentView = ref('connexion')
-
-const handleChangeView = (view) => {
-  currentView.value = view
-}
-  */
 </script>
 
 <template>
   <div class="card-header">
     <MenuCompo
-      v-for="item in menuItemAdmin"
+      v-for="item in menuItemVolunteer"
       :key="item.id"
       :svg="item.svg"
       :nameElement="item.nameElement"
+      :page="item.page"
     />
-    <VolunteerManagement />
+  </div>
+  <div>
+    <RouterView />
   </div>
 </template>
 
 <style scoped>
 .card-header {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: var(--text-secondary);
   display: flex;
   flex-direction: row;
