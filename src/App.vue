@@ -1,31 +1,29 @@
 <script setup>
-import FooterCompo from './FooterCompo.vue'
-import NavbarCompo from './NavbarCompo.vue'
-import MenuCompo from './components/MenuCompo.vue'
+import { onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import FooterCompo from '@/FooterCompo.vue'
+import NavbarCompo from '@/NavbarCompo.vue'
 
-//import { ref, computed } from 'vue'
+const router = useRouter()
+const route = useRoute()
 
-//import { menuItemVolunteer } from './assets/elements'
-import { menuItemAdmin } from './assets/elements'
+const handleChangeView = (view) => {
+  router.push(`/${view}`)
+}
 
-import VolunteerManagement from './components/VolunteerManagement.vue'
-import ConnexionCompo from './components/ConnexionCompo.vue'
+onMounted(() => {
+  if (route.path === '/' || route.path === '') {
+    router.push('/')
+  }
+})
 </script>
 
 <template>
   <header>
     <NavbarCompo />
   </header>
-  <ConnexionCompo />
-  <div class="card-header">
-    <MenuCompo
-      v-for="item in menuItemAdmin"
-      :key="item.id"
-      :svg="item.svg"
-      :nameElement="item.nameElement"
-    />
-  </div>
-  <VolunteerManagement />
+
+  <router-view @changeView="handleChangeView" />
 
   <FooterCompo />
 </template>
