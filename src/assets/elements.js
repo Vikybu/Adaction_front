@@ -130,9 +130,9 @@ export let menuItemVolunteer = [
 ]
 
 export let formLayoutCreationVolunteer = [
-  { nameElement: 'Prénom' },
-  { nameElement: 'Nom' },
-  { nameElement: 'Email' },
-  { nameElement: 'Mot de Passe' },
-  { nameElement: 'Localisation' },
+  { nameElement: 'Prénom', formElement: 'firstname', type: 'text' },
+  { nameElement: 'Nom', formElement: 'lastname', type: 'text' },
+  { nameElement: 'Email', formElement: 'email', type: 'email' },
+  { nameElement: 'Mot de Passe', formElement: 'password', type: 'text' },
+  { nameElement: 'Localisation', formElement: 'city', type: 'text' },
 ]
