@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
@@ -26,6 +26,7 @@ defineProps({
     type: String,
     required: true,
   },
+  onButton1Click: { type: Function, required: false },
   button2: {
     type: String,
     required: true,
@@ -35,6 +36,24 @@ defineProps({
     required: true,
   },
 })
+
+const URL = 'http://localhost:8080'
+
+async function fillForm() {
+  const response = await fetch(`${URL}/volunteer/infos`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  const database = await response.json()
+  console.log(database)
+  Object.keys(formData).forEach((key) => {
+    if (database[key] !== undefined) {
+      formData[key] = database[key]
+    }
+  })
+}
+
+defineExpose({ fillForm })
 </script>
 
 <template>
@@ -46,7 +65,13 @@ defineProps({
         <input v-model="formData[field.formElement]" type="field.type" />
       </label>
     </div>
-    <button class="button1" type="submit">{{ button1 }}</button>
+    <button
+      class="button1"
+      type="submit"
+      @click="onButton1Click ? onButton1Click() : functionSubmitted(formData)"
+    >
+      {{ button1 }}
+    </button>
     <button @click="emit('cancel')" class="button2" type="button">
       {{ button2 }}
     </button>

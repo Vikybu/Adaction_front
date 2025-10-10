@@ -10,19 +10,19 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-for="(item, index) in props.database" :key="index" class="div-display-volunteer">
+  <div v-for="volunteer in props.database" :key="volunteer.id" class="div-display-volunteer">
     <div class="div_volunteer_infos">
-      <p>{{ item.firstname }}</p>
-      <p>{{ item.lastname }}</p>
-      <p class="city">{{ item.city }}</p>
+      <p>{{ volunteer.firstName }}</p>
+      <p>{{ volunteer.lastName }}</p>
+      <p class="city">{{ volunteer.cityName }}</p>
     </div>
 
     <div class="div_button">
       <button class="btn_modification" @click="emit('view', 'formModifVolunteer')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -39,8 +39,8 @@ const props = defineProps({
       <button class="btn_delete">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="16"
+          height="16"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -63,11 +63,15 @@ const props = defineProps({
 <style scoped>
 .div-display-volunteer {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 80%;
-  margin: 0 auto;
-  padding: 10px;
+  margin: 3% auto;
+  padding: 20px;
+  border: 1px solid rgb(169, 169, 169);
+  border-radius: 10px;
+  gap: 20px;
 }
 
 .div_volunteer_infos {
@@ -81,19 +85,25 @@ const props = defineProps({
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  gap: 2%;
+  gap: 20%;
 }
 
 .btn_modification {
-  color: blue;
+  color: #1e40af;
   border: none;
   border-radius: 5px;
+  border: solid 1px #dbeafe;
+  padding: 8px;
+  background-color: #dbeafe;
 }
 
 .btn_delete {
-  color: red;
+  color: #b91c1c;
   border: none;
   border-radius: 5px;
+  border: solid 1px #fee2e2;
+  padding: 8px;
+  background-color: #fee2e2;
 }
 
 .city {
