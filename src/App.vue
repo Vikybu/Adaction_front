@@ -1,10 +1,11 @@
 <script setup>
-import FooterCompo from './FooterCompo.vue';
-import NavbarCompo from './NavbarCompo.vue';
+import FooterCompo from './components/FooterCompo.vue';
+import NavbarCompo from './components/NavbarCompo.vue';
 
 //import { ref, computed } from 'vue'
 import MenuCompo from './components/MenuCompo.vue'
 import { menuItemVolunteer } from './assets/elements'
+import VolunteerCollectCompo from './components/VolunteerCollectCompo.vue';
 //import Collect from './Collect.vue'
 //import Donation from './Daonation.vue'
 //import Profil from './Profil.vue'
@@ -21,10 +22,9 @@ import { menuItemVolunteer } from './assets/elements'
 </script>
 
 <template>
-   <header>
+
   <NavbarCompo />
-  <FooterCompo />
- </header>
+
   <div class="card-header">
     <MenuCompo
       v-for="item in menuItemVolunteer"
@@ -33,6 +33,12 @@ import { menuItemVolunteer } from './assets/elements'
       :menuElement="item.nameElement"
     />
   </div>
+
+  <VolunteerCollectCompo />
+
+
+  <FooterCompo />
+
 </template>
 
 <style scoped>
