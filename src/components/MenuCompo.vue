@@ -1,26 +1,23 @@
 <script setup>
-defineProps({
+const props = defineProps({
   svg: {
     type: String,
-    required: true,
   },
-  menuElement: {
+  nameElement: {
     type: String,
-    required: true,
   },
-  hrefElement: {
+  page: {
     type: String,
-    required: true,
   },
 })
 </script>
 
 <template>
   <div class="div_menu_choice">
-    <a :href="hrefElement">
-      <span v-html="svg"></span>
-      {{ menuElement }}
-    </a>
+    <RouterLink :to="props.page" class="menu-link">
+      <span v-html="props.svg"></span>
+      {{ props.nameElement }}
+    </RouterLink>
   </div>
 </template>
 
@@ -30,6 +27,8 @@ a span {
 }
 
 a {
+  display: flex;
+  flex-direction: row;
   font-size: 1rem;
   font-family: Helvetica, sans-serif;
 }
@@ -37,5 +36,6 @@ a {
 .div_menu_choice :hover {
   color: var(--primary-color);
   cursor: pointer;
+  margin-top: 3%;
 }
 </style>

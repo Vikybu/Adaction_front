@@ -9,16 +9,23 @@ import VolunteerCollectCompo from './components/VolunteerCollectCompo.vue';
 //import Collect from './Collect.vue'
 //import Donation from './Daonation.vue'
 //import Profil from './Profil.vue'
+import { onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import FooterCompo from '@/FooterCompo.vue'
+import NavbarCompo from '@/NavbarCompo.vue'
 
-//const currentPath = ref(window.location.hash)
+const router = useRouter()
+const route = useRoute()
 
-//window.addEventListener('hashchange', () => {
-//  currentPath.value = window.location.hash
-//})
+const handleChangeView = (view) => {
+  router.push(`/${view}`)
+}
 
-//const currentView = computed(() => {
-//  return routes[currentPath.value.slice(1) || '/'] || NotFound
-//})
+onMounted(() => {
+  if (route.path === '/' || route.path === '') {
+    router.push('/')
+  }
+})
 </script>
 
 <template>
@@ -39,6 +46,13 @@ import VolunteerCollectCompo from './components/VolunteerCollectCompo.vue';
 
   <FooterCompo />
 
+  <header>
+    <NavbarCompo />
+  </header>
+
+  <router-view @changeView="handleChangeView" />
+
+  <FooterCompo />
 </template>
 
 <style scoped>
@@ -51,5 +65,6 @@ import VolunteerCollectCompo from './components/VolunteerCollectCompo.vue';
   justify-content: center;
   text-align: center;
   gap: 5%;
+  margin-top: 2%;
 }
 </style>
