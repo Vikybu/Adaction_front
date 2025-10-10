@@ -4,24 +4,20 @@ import { reactive } from 'vue'
 const emit = defineEmits(['cancel'])
 
 const formData = reactive({
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   email: '',
-  password: '',
-  localisation: '',
+  pass_word: '',
+  city_id: '',
+  points: 0,
 })
-
-async function handleSubmit() {
-  const jsonData = JSON.stringify(formData)
-  console.log('JSON du formulaire :', jsonData)
-  await fetch('/volunteer/add', { method: 'POST', body: jsonData })
-}
 
 defineProps({
   title: {
     type: String,
     required: true,
   },
+
   fields: {
     type: Array,
     required: true,
@@ -34,12 +30,16 @@ defineProps({
     type: String,
     required: true,
   },
+  functionSubmitted: {
+    type: Function,
+    required: true,
+  },
 })
 </script>
 
 <template>
   <h1>{{ title }}</h1>
-  <form class="form-container" @submit.prevent="handleSubmit">
+  <form class="form-container" @submit.prevent="functionSubmitted(formData)">
     <div class="div_input_form" v-for="(field, index) in fields" :key="index">
       <label>
         {{ field.nameElement }} <br />

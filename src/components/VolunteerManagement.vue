@@ -1,16 +1,66 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import DisplayVolunteer from './DisplayVolunteer.vue'
 import FormLayout from './FormLayout.vue'
 
 import { formLayoutCreationVolunteer } from '@/assets/elements'
 
 const currentView = ref('management')
+const volunteers = ref([])
+
+const URL = 'http://localhost:8080'
+
+async function handleSubmit(formData) {
+  const jsonData = JSON.stringify(formData)
+  console.log('JSON du formulaire :', jsonData)
+  const response = await fetch(`${URL}/volunteer/add`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: jsonData,
+  })
+
+  if (response.status === 200) {
+    Object.keys(formData).forEach((key) => {
+      formData[key] = key === 'points' ? 0 : ''
+    })
+    setTimeout(function () {
+      alert('Bénévole ajouté avec succès !')
+    }, 2000)
+    currentView.value = 'management'
+  } else {
+    console.log('Something went wrong 🤔')
+    setTimeout(function () {
+      alert(`Le bénévole n' pas pu $etre enregistré !`)
+    }, 2000)
+  }
+
+  const database = await response.text()
+  console.log(database)
+}
+
+async function getVolunteer() {
+  try {
+    const response = await fetch(`${URL}/volunteer/display`)
+    if (!response.ok) throw new Error('Erreur réseau')
+    volunteers.value = await response.json()
+    console.log('Bénévoles récupérés ✅', volunteers.value)
+  } catch (err) {
+    console.error('Erreur de chargement :', err)
+  }
+}
+
+function handleViewChange(newView) {
+  currentView.value = newView
+}
+
+onMounted(() => {
+  getVolunteer()
+})
 </script>
 
 <template>
   <div v-if="currentView === 'management'">
-    <button class="btn_add_volunteer" @click="currentView = 'form'">
+    <button class="btn_add_volunteer" @click="currentView = 'formAddVolunteer'">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -37,14 +87,26 @@ const currentView = ref('management')
       </select>
     </div>
 
-    <DisplayVolunteer />
+    <DisplayVolunteer :database="volunteers" @view="handleViewChange" />
   </div>
 
-  <div v-else-if="currentView === 'form'">
+  <div v-else-if="currentView === 'formAddVolunteer'">
     <FormLayout
+      :functionSubmitted="handleSubmit"
       :title="'Ajouter un.e bénévole'"
       :fields="formLayoutCreationVolunteer"
       :button1="'Ajouter'"
+      :button2="'Annuler'"
+      @cancel="currentView = 'management'"
+    />
+  </div>
+
+  <div v-else-if="currentView === 'formModifVolunteer'">
+    <FormLayout
+      :functionSubmitted="displayInfos"
+      :title="'Modifier un.e bénévole'"
+      :fields="formLayoutCreationVolunteer"
+      :button1="'Modifier'"
       :button2="'Annuler'"
       @cancel="currentView = 'management'"
     />

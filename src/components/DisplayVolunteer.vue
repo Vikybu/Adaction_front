@@ -1,15 +1,24 @@
-<script setup></script>
+<script setup>
+const emit = defineEmits(['view'])
+
+const props = defineProps({
+  database: {
+    type: Array,
+    required: true,
+  },
+})
+</script>
 
 <template>
-  <div class="div-display-volunteer">
+  <div v-for="(item, index) in props.database" :key="index" class="div-display-volunteer">
     <div class="div_volunteer_infos">
-      <p>Monica</p>
-      <p>Geller</p>
-      <p class="city">Paris</p>
+      <p>{{ item.firstname }}</p>
+      <p>{{ item.lastname }}</p>
+      <p class="city">{{ item.city }}</p>
     </div>
 
     <div class="div_button">
-      <button class="btn_modification">
+      <button class="btn_modification" @click="emit('view', 'formModifVolunteer')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
