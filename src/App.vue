@@ -1,4 +1,14 @@
 <script setup>
+import FooterCompo from './components/FooterCompo.vue';
+import NavbarCompo from './components/NavbarCompo.vue';
+
+//import { ref, computed } from 'vue'
+import MenuCompo from './components/MenuCompo.vue'
+import { menuItemVolunteer } from './assets/elements'
+import VolunteerCollectCompo from './components/VolunteerCollectCompo.vue';
+//import Collect from './Collect.vue'
+//import Donation from './Daonation.vue'
+//import Profil from './Profil.vue'
 import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import FooterCompo from '@/FooterCompo.vue'
@@ -19,6 +29,23 @@ onMounted(() => {
 </script>
 
 <template>
+
+  <NavbarCompo />
+
+  <div class="card-header">
+    <MenuCompo
+      v-for="item in menuItemVolunteer"
+      :key="item.id"
+      :svg="item.svg"
+      :menuElement="item.nameElement"
+    />
+  </div>
+
+  <VolunteerCollectCompo />
+
+
+  <FooterCompo />
+
   <header>
     <NavbarCompo />
   </header>

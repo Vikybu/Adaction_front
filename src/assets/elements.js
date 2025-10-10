@@ -129,6 +129,8 @@ export let menuItemVolunteer = [
   },
 ]
 
+
+
 export let formLayoutCreationVolunteer = [
   { nameElement: 'Prénom', formElement: 'firstname', type: 'text' },
   { nameElement: 'Nom', formElement: 'lastname', type: 'text' },
