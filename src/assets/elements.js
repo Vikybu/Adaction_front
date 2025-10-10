@@ -130,9 +130,17 @@ export let menuItemVolunteer = [
 ]
 
 export let formLayoutCreationVolunteer = [
-  { nameElement: 'Prénom', formElement: 'firstname', type: 'text' },
-  { nameElement: 'Nom', formElement: 'lastname', type: 'text' },
+  { nameElement: 'Prénom', formElement: 'firstName', type: 'text' },
+  { nameElement: 'Nom', formElement: 'lastName', type: 'text' },
   { nameElement: 'Email', formElement: 'email', type: 'email' },
-  { nameElement: 'Mot de Passe', formElement: 'password', type: 'text' },
-  { nameElement: 'Localisation', formElement: 'city', type: 'text' },
+  { nameElement: 'Mot de Passe', formElement: 'pass_word', type: 'text' },
+  { nameElement: 'Localisation', formElement: 'city_id', type: 'text' },
+]
+
+export let formLayoutModificationVolunteer = [
+  { nameElement: 'Prénom', formElement: 'firstName', type: 'text' },
+  { nameElement: 'Nom', formElement: 'lastName', type: 'text' },
+  { nameElement: 'Email', formElement: 'email', type: 'email' },
+  { nameElement: 'Mot de Passe', formElement: 'pass_word', type: 'text' },
+  { nameElement: 'Localisation', formElement: 'city_id', type: 'text' },
 ]
