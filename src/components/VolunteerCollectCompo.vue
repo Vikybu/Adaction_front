@@ -66,7 +66,11 @@
     class="flex items-center justify-between mb-3 border rounded-lg p-2"
   >
     <div class="flex items-center gap-2">
-      <span class="text-xl">{{ waste.icone }}</span>
+      <img
+        :src="waste.icone"
+        :alt="`Icône ${waste.name}`"
+        class="w-7 h-7"
+      />
       <span>{{ waste.name }}</span>
     </div>
     <div class="flex items-center gap-2">
@@ -190,6 +194,23 @@ const addCollect = {
   }
 
 }
+
+async function test() {
+  try {
+    const response = await fetch('http://localhost:8080/test', {
+      method: 'GET',
+    })
+    const data = await response.json()
+   console.log(data)
+
+  } catch (err) {
+    console.error('Erreur du fetch des viulles :', err)
+  }
+}
+
+onMounted(() => {
+  test()
+})
 
 
 </script>

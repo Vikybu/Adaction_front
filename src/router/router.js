@@ -16,11 +16,11 @@ const routes = [
     children: [
       { path: 'dashboard', component: VolunteerDashboard },
       { path: 'donation', component: VolunteerDonation },
+      { path: 'collect', component: VolunteerCollectCompo},
     ],
   },
   { path: '/volunteer/donation', component: VolunteerDonation },
   { path: '/volunteer/dashboard', component: VolunteerDashboard },
-
   { path: '/volunteer/collect', component: VolunteerCollectCompo}
 ]
 

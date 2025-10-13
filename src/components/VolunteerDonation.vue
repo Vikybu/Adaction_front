@@ -10,8 +10,6 @@ defineProps({
 </script>
 
 <template>
-  <h1>Faire un don</h1>
-  <p>Points collectés: {{ points }}</p>
   <AssociationInfo />
 </template>
 
