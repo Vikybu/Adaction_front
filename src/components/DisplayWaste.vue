@@ -1,31 +1,48 @@
 <script setup></script>
 
 <template>
-  <div class="div_display_waste">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-cigarette-icon lucide-cigarette"
-    >
-      <path d="M17 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h14" />
-      <path d="M18 8c0-2.5-2-2.5-2-5" />
-      <path d="M21 16a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
-      <path d="M22 8c0-2.5-2-2.5-2-5" />
-      <path d="M7 12v4" />
-    </svg>
-    <div class="waste">
-      <p>Mégots de cigarette</p>
-      <p>0 collecte</p>
+  <label class="block mb-2 text-sm font-medium text-gray-600">Type de déchet *</label>
+
+  <div
+    v-for="waste in wastes"
+    :key="waste.id"
+    class="flex items-center justify-between mb-3 border rounded-xl p-3 transition-all duration-300 bg-white hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+  >
+    <div class="flex items-center gap-3">
+      <!-- Image SVG -->
+      <img
+        :src="waste.icone"
+        :alt="`Icône ${waste.name}`"
+        class="w-7 h-7"
+      />
+      <!-- Nom du déchet -->
+      <span class="font-medium text-gray-800">{{ waste.name }}</span>
     </div>
   </div>
 </template>
+
+
+<script setup>
+import { ref, onMounted } from 'vue'
+const wastes = ref([])
+
+async function getWaste() {
+  try {
+    const response = await fetch('http://localhost:8080/waste', {
+      method: 'GET',
+    })
+    const data = await response.json()
+    wastes.value = data
+    return wastes
+  } catch (err) {
+    console.error('Erreur du fetch des viulles :', err)
+  }
+}
+
+onMounted(() => {
+  getWaste()
+})
+</script>
 
 <style scoped>
 .div_display_waste {
