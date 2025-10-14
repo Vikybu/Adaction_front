@@ -1,7 +1,7 @@
 <script setup>
 const emit = defineEmits(['view'])
 
-const props = defineProps({
+defineProps({
   database: {
     type: Array,
     required: true,
@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div v-for="volunteer in props.database" :key="volunteer.id" class="div-display-volunteer">
+  <div v-for="volunteer in database" :key="volunteer.id" class="div-display-volunteer">
     <div class="div_volunteer_infos">
       <p>{{ volunteer.firstName }}</p>
       <p>{{ volunteer.lastName }}</p>
