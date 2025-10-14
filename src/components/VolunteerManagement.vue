@@ -39,22 +39,25 @@ async function handleSubmit(formData) {
 }
 
 async function getVolunteer() {
-  try {
-    const response = await fetch(`${URL}/volunteer/display`)
-    if (!response.ok) throw new Error('Erreur réseau')
-    volunteers.value = await response.json()
-    console.log('Bénévoles récupérés ✅', volunteers.value)
-  } catch (err) {
-    console.error('Erreur de chargement :', err)
-  }
-}
+  const response = await fetch(`${URL}/volunteer/display`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
 
+  const database = await response.json()
+  console.log(database)
+  return database
+}
 function handleViewChange(newView) {
   currentView.value = newView
 }
+async function fetchVolunteers() {
+  volunteers.value = await getVolunteer()
+  console.log('Volunteers côté front :', volunteers.value)
+}
 
 onMounted(() => {
-  getVolunteer()
+  fetchVolunteers()
 })
 </script>
 
@@ -107,6 +110,7 @@ onMounted(() => {
       :title="'Modifier un.e bénévole'"
       :fields="formLayoutCreationVolunteer"
       :button1="'Modifier'"
+      :onButton1Click="() => fillForm(data)"
       :button2="'Annuler'"
       @cancel="currentView = 'management'"
     />
@@ -115,7 +119,10 @@ onMounted(() => {
 
 <style scoped>
 .btn_add_volunteer {
-  margin-top: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   font-family: 'Helvetica', 'sans-serif';
   color: white;
   font-size: 1rem;
@@ -124,14 +131,12 @@ onMounted(() => {
   background-color: var(--primary-color);
   height: 50px;
   width: 90%;
-  align-items: center;
-}
 
-svg button {
-  vertical-align: middle;
+  margin: auto;
 }
 
 .div_volunteer_city_filter {
+  margin-top: 4%;
   display: flex;
   flex-direction: row;
   align-items: center;
