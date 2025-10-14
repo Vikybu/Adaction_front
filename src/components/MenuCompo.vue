@@ -19,6 +19,7 @@ const props = defineProps({
       {{ props.nameElement }}
     </RouterLink>
   </div>
+  <hr class="border-0 h-1 bg-gray-400 my-2" />
 </template>
 
 <style scoped>
@@ -31,6 +32,7 @@ a {
   flex-direction: row;
   font-size: 1rem;
   font-family: Helvetica, sans-serif;
+  margin-bottom: 7%;
 }
 
 .div_menu_choice :hover {

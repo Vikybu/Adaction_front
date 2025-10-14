@@ -2,6 +2,19 @@
 import DisplayWaste from './DisplayWaste.vue'
 import { ref } from 'vue'
 
+/*
+const URL = 'http://localhost:8080'
+async function getFirstname(userId) {
+  const response = await fetch(`${URL}/volunteer/dashboard/userId`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    body: { userId },
+  })
+  const dataFirstname = await response.json()
+  return dataFirstname
+}
+getFirstname(userId)
+*/
 let actualDate = new Date()
 
 var arrayMonth = new Array(
@@ -50,7 +63,7 @@ function removeAMonth() {
 </script>
 
 <template>
-  <h1>Bonjour Phoebe !</h1>
+  <h1>Bonjour {{ userId }} !</h1>
   <div class="div_date_choice">
     <button @click="removeAMonth">&lt;</button>
     <p>{{ month }} {{ year }}</p>

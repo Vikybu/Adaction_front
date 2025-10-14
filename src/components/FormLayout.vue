@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, watchEffect } from 'vue'
+import { reactive, defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
@@ -21,7 +22,42 @@ watchEffect(() => {
       formData[field.formElement] = ''
     }
   })
+  fields: {
+    type: Array,
+    required: true,
+  },
+  button1: {
+    type: String,
+    required: true,
+  },
+  onButton1Click: { type: Function, required: false },
+  button2: {
+    type: String,
+    required: true,
+  },
+  functionSubmitted: {
+    type: Function,
+    required: true,
+  },
 })
+
+const URL = 'http://localhost:8080'
+
+async function fillForm() {
+  const response = await fetch(`${URL}/volunteer/infos`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  const database = await response.json()
+  console.log(database)
+  Object.keys(formData).forEach((key) => {
+    if (database[key] !== undefined) {
+      formData[key] = database[key]
+    }
+  })
+}
+
+defineExpose({ fillForm })
 </script>
 
 <template>
@@ -33,8 +69,16 @@ watchEffect(() => {
         <input v-model="formData[field.formElement]" :type="field.type" />
       </label>
     </div>
-    <button class="button1" type="submit" v-html="button1"></button>
-    <button @click="emit('cancel')" class="button2" type="button" v-html="button2"></button>
+    <button
+      class="button1"
+      type="submit"
+      @click="onButton1Click ? onButton1Click() : functionSubmitted(formData)"
+    >
+      {{ button1 }}
+    </button>
+    <button @click="emit('cancel')" class="button2" type="button">
+      {{ button2 }}
+    </button>
   </form>
 </template>
 
