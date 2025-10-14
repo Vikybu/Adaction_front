@@ -1,23 +1,27 @@
 <script setup>
+import { reactive, watchEffect } from 'vue'
 import { reactive, defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
-const formData = reactive({
-  firstName: '',
-  lastName: '',
-  email: '',
-  pass_word: '',
-  city_id: '',
-  points: 0,
+const props = defineProps({
+  title: String,
+  fields: Array,
+  button1: String,
+  button2: String,
+  functionSubmitted: Function,
 })
 
-defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
+// Crée dynamiquement le formData selon les fields
+const formData = reactive({})
 
+// Dès que les props changent, on (ré)initialise formData
+watchEffect(() => {
+  props.fields.forEach((field) => {
+    if (!(field.formElement in formData)) {
+      formData[field.formElement] = ''
+    }
+  })
   fields: {
     type: Array,
     required: true,
@@ -58,11 +62,11 @@ defineExpose({ fillForm })
 
 <template>
   <h1>{{ title }}</h1>
-  <form class="form-container" @submit.prevent="functionSubmitted(formData)">
-    <div class="div_input_form" v-for="(field, index) in fields" :key="index">
+  <form class="form-container" @submit.prevent="props.functionSubmitted(formData)">
+    <div class="div_input_form" v-for="(field, index) in props.fields" :key="index">
       <label>
         {{ field.nameElement }} <br />
-        <input v-model="formData[field.formElement]" type="field.type" />
+        <input v-model="formData[field.formElement]" :type="field.type" />
       </label>
     </div>
     <button
@@ -80,43 +84,66 @@ defineExpose({ fillForm })
 
 <style scoped>
 h1 {
+  text-align: center;
+  padding-top: 1rem;
   font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  margin: 1.5rem;
 }
 
 input {
   margin-top: 2%;
   border: 1px solid var(--primary-color);
-  width: 80%;
+  width: 100%;
   height: 35px;
   outline: none;
   box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1);
   border-radius: 0.3rem;
   background-color: white;
 }
+.button1,
+.button2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
 
 .button1 {
-  font-family: 'Helvetica', 'sans-serif';
-  color: white;
-  font-size: 1rem;
-  border: 1px solid var(--primary-color);
-  border-radius: 0.5rem;
   background-color: var(--primary-color);
-  height: 50px;
+  color: white;
+  border: 1px solid var(--primary-color);
+}
+
+.button1:hover {
+  background-color: #059669;
 }
 
 .button2 {
-  font-family: 'Helvetica', 'sans-serif';
-  color: white;
-  font-size: 1rem;
-  border: 1px solid var(--text-secondary);
-  border-radius: 0.5rem;
   background-color: var(--text-secondary);
-  height: 50px;
+  color: white;
+  border: 1px solid var(--text-secondary);
 }
+
+.button2:hover {
+  background-color: #4b5563;
+}
+
+.button1 svg,
+.button2 svg {
+  vertical-align: middle;
+}
+
 </style>
