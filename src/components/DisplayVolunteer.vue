@@ -1,24 +1,38 @@
 <script setup>
 const emit = defineEmits(['view', 'refresh'])
 
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const showModal = ref(false)
 const volunteerToDelete = ref(null)
-
-defineProps({
-  database: {
-    type: Array,
-    required: true,
-  },
-})
+const volunteers = ref([])
 
 function openModal(volunteer) {
   volunteerToDelete.value = volunteer.id
   showModal.value = true
 }
-
 const URL = 'http://localhost:8080'
+//Get volunteer informations for the display
+async function getVolunteer() {
+  const response = await fetch(`${URL}/volunteer/display-with-city`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  })
+
+  const database = await response.json()
+  console.log(database)
+  return database
+}
+
+//Get the list of volunteer for the displayvolunteer
+async function fetchVolunteers() {
+  volunteers.value = await getVolunteer()
+}
+
+onMounted(() => {
+  fetchVolunteers()
+})
+
 //Delete a volunteer
 async function deleteVolunteer() {
   if (!volunteerToDelete.value) return
@@ -34,7 +48,7 @@ async function deleteVolunteer() {
     showModal.value = false
     volunteerToDelete.value = null
 
-    emit('refresh')
+    fetchVolunteers()
   } catch (error) {
     console.error(error)
   }
@@ -42,7 +56,7 @@ async function deleteVolunteer() {
 </script>
 
 <template>
-  <div v-for="volunteer in database" :key="volunteer.id" class="div-display-volunteer">
+  <div v-for="volunteer in volunteers" :key="volunteer.id" class="div-display-volunteer">
     <div class="div_volunteer_infos">
       <p>{{ volunteer.firstName }}</p>
       <p>{{ volunteer.lastName }}</p>

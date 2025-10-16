@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, defineExpose, ref } from 'vue'
+import { ref, defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
@@ -11,10 +11,31 @@ const form = ref({
   city_id: '',
 })
 
-// Crée dynamiquement le formData selon les fields
-const formData = reactive({})
-
 const URL = 'http://localhost:8080'
+
+//Modification volunteers' information
+async function modifyVolunteer(formData) {
+  const dataToSend = { ...formData }
+
+  if (!dataToSend.pass_word || dataToSend.pass_word.trim() === '') {
+    delete dataToSend.pass_word
+  }
+  const response = await fetch(`${URL}/volunteer/modify`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dataToSend),
+  })
+
+  const result = await response.json()
+  console.log(result)
+
+  if (result.status === 'success') {
+    alert(result.message)
+    emit('viewChange', 'management')
+  } else {
+    alert(result.message)
+  }
+}
 
 //Pré-remplissage des champs du formulaire pour la modification
 async function fillForm(id) {
@@ -24,50 +45,44 @@ async function fillForm(id) {
     body: JSON.stringify(id),
   })
   const database = await response.json()
-  console.log(database)
-  Object.keys(formData).forEach((key) => {
+  console.log('Données reçues :', database)
+  Object.keys(form.value).forEach((key) => {
     if (database[key] !== undefined) {
-      formData[key] = database[key]
+      form.value[key] = database[key]
     }
-    formData['id'] = id
   })
+  form.value.id = id
 }
 
 defineExpose({ fillForm })
 </script>
 
 <template>
-  <h1>Ajouter un.e bénévole</h1>
-  <form class="form-container" @submit.prevent="props.functionSubmitted(formData)">
-    <div class="div_input_form" v-for="(field, index) in props.fields" :key="index">
+  <h1>Modifier un.e bénévole</h1>
+  <form class="form-container" @submit.prevent="modifyVolunteer(form)">
+    <div class="div_input_form">
       <label>
-        Prénom <br />
-        <input type="text" v-model="form.firstName" />
+        Prénom<br />
+        <input v-model="form.firstName" type="text" />
       </label>
       <label>
-        Nom <br />
-        <input type="text" v-model="form.lastName" />
+        Nom<br />
+        <input v-model="form.lastName" type="text" />
       </label>
       <label>
-        Email <br />
-        <input type="emai" v-model="form.emai" />
+        Email<br />
+        <input v-model="form.email" type="email" />
       </label>
       <label>
-        Mot de passe <br />
-        <input type="text" v-model="form.pass_word" />
+        Mot de passe<br />
+        <input v-model="form.pass_word" type="text" />
       </label>
       <label>
-        Localisation <br />
-        <input type="text" v-model="form.city_id" />
+        Localisation<br />
+        <input v-model="form.city_id" type="text" />
       </label>
     </div>
-    <button
-      class="button1"
-      type="submit"
-      @click="onButton1Click ? onButton1Click() : functionSubmitted(formData)"
-    >
-      Ajouter
-    </button>
+    <button class="button1" type="submit">Modifier</button>
     <button @click="emit('cancel')" class="button2" type="button">Annuler</button>
   </form>
 </template>

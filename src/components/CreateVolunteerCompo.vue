@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, defineExpose, ref } from 'vue'
+import { ref } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
@@ -8,66 +8,63 @@ const form = ref({
   lastName: '',
   email: '',
   pass_word: '',
-  city_id: '',
+  cityName: '',
 })
-
-// Crée dynamiquement le formData selon les fields
-const formData = reactive({})
 
 const URL = 'http://localhost:8080'
 
-//Pré-remplissage des champs du formulaire pour la modification
-async function fillForm(id) {
-  const response = await fetch(`${URL}/volunteer/infos`, {
+//Create a new volunteer
+async function createVolunteer(form) {
+  const jsonData = JSON.stringify(form)
+  console.log('JSON du formulaire :', jsonData)
+  const response = await fetch(`${URL}/volunteer/add`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(id),
+    body: jsonData,
   })
-  const database = await response.json()
-  console.log(database)
-  Object.keys(formData).forEach((key) => {
-    if (database[key] !== undefined) {
-      formData[key] = database[key]
-    }
-    formData['id'] = id
-  })
-}
 
-defineExpose({ fillForm })
+  if (response.ok) {
+    Object.keys(form).forEach((key) => {
+      form[key] = key === 'points' ? 0 : ''
+    })
+    alert('Bénévole ajouté avec succès !')
+    emit('viewChange', 'management')
+  } else {
+    console.log('Something went wrong')
+    alert(`Le bénévole n' pas pu $etre enregistré !`)
+  }
+
+  const database = await response.text()
+  console.log(database)
+}
 </script>
 
 <template>
-  <h1>Ajouter un.e bénévole</h1>
-  <form class="form-container" @submit.prevent="props.functionSubmitted(formData)">
-    <div class="div_input_form" v-for="(field, index) in props.fields" :key="index">
+  <h1>{{ title }}</h1>
+  <form class="form-container" @submit.prevent="createVolunteer(form)">
+    <div class="div_input_form">
       <label>
-        Prénom <br />
-        <input type="text" v-model="form.firstName" />
+        Prénom<br />
+        <input v-model="form.firstName" type="text" />
       </label>
       <label>
-        Nom <br />
-        <input type="text" v-model="form.lastName" />
+        Nom<br />
+        <input v-model="form.lastName" type="text" />
       </label>
       <label>
-        Email <br />
-        <input type="emai" v-model="form.emai" />
+        Email<br />
+        <input v-model="form.email" type="email" />
       </label>
       <label>
-        Mot de passe <br />
-        <input type="text" v-model="form.pass_word" />
+        Mot de passe<br />
+        <input v-model="form.pass_word" type="text" />
       </label>
       <label>
-        Localisation <br />
-        <input type="text" v-model="form.city_id" />
+        Localisation<br />
+        <input v-model="form.cityName" type="text" />
       </label>
     </div>
-    <button
-      class="button1"
-      type="submit"
-      @click="onButton1Click ? onButton1Click() : functionSubmitted(formData)"
-    >
-      Ajouter
-    </button>
+    <button class="button1" type="submit">Ajouter</button>
     <button @click="emit('cancel')" class="button2" type="button">Annuler</button>
   </form>
 </template>
