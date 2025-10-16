@@ -1,7 +1,12 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const emit = defineEmits(['cancel'])
+function cancelForm() {
+  router.push('/admin/dashboard')
+}
+
+const router = useRouter()
 
 const form = ref({
   firstName: '',
@@ -28,7 +33,7 @@ async function createVolunteer(form) {
       form[key] = key === 'points' ? 0 : ''
     })
     alert('Bénévole ajouté avec succès !')
-    emit('viewChange', 'management')
+    router.push('/admin/dashboard')
   } else {
     console.log('Something went wrong')
     alert(`Le bénévole n' pas pu $etre enregistré !`)
@@ -40,7 +45,7 @@ async function createVolunteer(form) {
 </script>
 
 <template>
-  <h1>{{ title }}</h1>
+  <h1>Ajouter un.e bénévole</h1>
   <form class="form-container" @submit.prevent="createVolunteer(form)">
     <div class="div_input_form">
       <label>
@@ -65,7 +70,7 @@ async function createVolunteer(form) {
       </label>
     </div>
     <button class="button1" type="submit">Ajouter</button>
-    <button @click="emit('cancel')" class="button2" type="button">Annuler</button>
+    <button @click="cancelForm" class="button2" type="button">Annuler</button>
   </form>
 </template>
 

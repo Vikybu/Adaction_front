@@ -1,7 +1,9 @@
 <script setup>
-import { ref, defineExpose } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-const emit = defineEmits(['cancel'])
+const route = useRoute()
+const router = useRouter()
 
 const form = ref({
   firstName: '',
@@ -10,6 +12,10 @@ const form = ref({
   pass_word: '',
   city_id: '',
 })
+
+function cancelForm() {
+  router.push('/admin/dashboard')
+}
 
 const URL = 'http://localhost:8080'
 
@@ -28,33 +34,20 @@ async function modifyVolunteer(formData) {
 
   const result = await response.json()
   console.log(result)
-
+  router.push('/admin/dashboard')
   if (result.status === 'success') {
     alert(result.message)
-    emit('viewChange', 'management')
   } else {
     alert(result.message)
   }
 }
 
-//Pré-remplissage des champs du formulaire pour la modification
-async function fillForm(id) {
-  const response = await fetch(`${URL}/volunteer/infos`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(id),
-  })
-  const database = await response.json()
-  console.log('Données reçues :', database)
-  Object.keys(form.value).forEach((key) => {
-    if (database[key] !== undefined) {
-      form.value[key] = database[key]
-    }
-  })
-  form.value.id = id
-}
-
-defineExpose({ fillForm })
+onMounted(async () => {
+  const id = route.params.id
+  const response = await fetch(`${URL}/volunteer/infos/${id}`, { method: 'GET' })
+  const data = await response.json()
+  Object.assign(form.value, data)
+})
 </script>
 
 <template>
@@ -83,7 +76,7 @@ defineExpose({ fillForm })
       </label>
     </div>
     <button class="button1" type="submit">Modifier</button>
-    <button @click="emit('cancel')" class="button2" type="button">Annuler</button>
+    <button @click="cancelForm" class="button2" type="button">Annuler</button>
   </form>
 </template>
 

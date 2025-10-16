@@ -6,10 +6,12 @@ import VolunteerDonation from '@/components/VolunteerDonation.vue'
 import VolunteerDashboard from '@/components/VolunteerDashboard.vue'
 import VolunteerCollectCompo from '@/components/VolunteerCollectCompo.vue'
 import VolunteerManagementVueVolunteer from '@/components/VolunteerManagementVueVolunteer.vue'
+import VolunteerManagement from '@/components/VolunteerManagement.vue'
+import CreateVolunteerCompo from '@/components/CreateVolunteerCompo.vue'
+import ModifVolunteerCompo from '@/components/ModifVolunteerCompo.vue'
 
 const routes = [
   { path: '/', component: ConnexionCompo },
-  { path: '/admin', component: AdminPage },
   {
     path: '/volunteer',
     component: VolunteerPage,
@@ -17,12 +19,20 @@ const routes = [
     children: [
       { path: 'dashboard', component: VolunteerDashboard },
       { path: 'donation', component: VolunteerDonation },
-      { path: 'collect', component: VolunteerCollectCompo},
-      { path: '/volunteer/profile', component: VolunteerManagementVueVolunteer}
-
+      { path: 'collect', component: VolunteerCollectCompo },
+      { path: 'profile', component: VolunteerManagementVueVolunteer },
     ],
   },
-
+  {
+    path: '/admin',
+    component: AdminPage,
+    redirect: '/admin/dashboard',
+    children: [
+      { path: 'dashboard', component: VolunteerManagement },
+      { path: 'add', name: 'CreateVolunteer', component: CreateVolunteerCompo },
+      { path: 'modify/:id', name: 'ModifVolunteer', component: ModifVolunteerCompo },
+    ],
+  },
 ]
 
 export default createRouter({
