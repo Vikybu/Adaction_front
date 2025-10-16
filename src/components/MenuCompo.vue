@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+const { svg, nameElement, page } = defineProps({
   svg: {
     type: String,
   },
@@ -14,9 +14,9 @@ const props = defineProps({
 
 <template>
   <div class="div_menu_choice">
-    <RouterLink :to="props.page" class="menu-link">
-      <span v-html="props.svg"></span>
-      {{ props.nameElement }}
+    <RouterLink :to="page" class="menu-link">
+      <span v-html="svg"></span>
+      {{ nameElement }}
     </RouterLink>
   </div>
   <hr class="border-0 h-1 bg-gray-400 my-2" />
@@ -35,7 +35,7 @@ a {
   margin-bottom: 7%;
 }
 
-.div_menu_choice :hover {
+.div_menu_choice:hover {
   color: var(--primary-color);
   cursor: pointer;
   margin-top: 3%;

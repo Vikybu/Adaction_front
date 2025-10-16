@@ -1,30 +1,17 @@
 <script setup>
-import { nextTick, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import DisplayVolunteer from './DisplayVolunteer.vue'
-import CreateVolunteerCompo from './CreateVolunteerCompo.vue'
-import ModifVolunteerCompo from './ModifVolunteerCompo.vue'
 
-const currentView = ref('management')
-const formRef = ref(null)
+const router = useRouter()
 
-//Change the view
-function handleViewChange(newView, volunteerId) {
-  currentView.value = newView
-  if (newView === 'formModifVolunteer') {
-    nextTick(() => {
-      if (formRef.value && formRef.value.fillForm) {
-        formRef.value.fillForm(volunteerId)
-      } else {
-        console.warn('formRef ou fillForm non disponible')
-      }
-    })
-  }
+function goToCreateVolunteer() {
+  router.push('/admin/add')
 }
 </script>
 
 <template>
-  <div v-if="currentView === 'management'">
-    <button class="btn_add_volunteer" @click="currentView = 'formAddVolunteer'">
+  <div>
+    <button class="btn_add_volunteer" @click="goToCreateVolunteer">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -50,20 +37,7 @@ function handleViewChange(newView, volunteerId) {
         <option>Toutes les villes</option>
       </select>
     </div>
-
-    <DisplayVolunteer @view="handleViewChange" />
-  </div>
-
-  <div v-else-if="currentView === 'formAddVolunteer'">
-    <CreateVolunteerCompo @viewChange="currentView = $event" @cancel="currentView = 'management'" />
-  </div>
-
-  <div v-else-if="currentView === 'formModifVolunteer'">
-    <ModifVolunteerCompo
-      ref="formRef"
-      @viewChange="currentView = $event"
-      @cancel="currentView = 'management'"
-    />
+    <DisplayVolunteer />
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 <script setup>
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { userStore } from '../stores/userStore'
-const emit = defineEmits(['changeView'])
+
+const router = useRouter()
 
 let dataConnexion = reactive({
   email: '',
@@ -26,10 +28,10 @@ async function connexion(dataConnexion) {
     const result = await response.json()
     userStore.id = result.id
 
-    if (dataConnexion.email == 'admin@admin.fr') {
-      emit('changeView', 'admin')
+    if (dataConnexion.email === 'admin@admin.fr') {
+      router.push('/admin/dashboard')
     } else {
-      emit('changeView', 'volunteer')
+      router.push('/volunteer/dashboard')
     }
   } catch (error) {
     console.error('Erreur fetch :', error)
@@ -46,7 +48,7 @@ async function connexion(dataConnexion) {
       </label>
       <label>
         Mot de passe
-        <input type="text" v-model="dataConnexion.pass_word" />
+        <input type="password" v-model="dataConnexion.pass_word" />
       </label>
       <button type="submit">Se connecter</button>
     </div>

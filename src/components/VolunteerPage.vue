@@ -14,9 +14,7 @@ import MenuCompo from './MenuCompo.vue'
       :page="item.page"
     />
   </div>
-  <div>
-    <RouterView />
-  </div>
+  <router-view />
 </template>
 
 <style scoped>

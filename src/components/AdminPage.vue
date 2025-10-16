@@ -1,7 +1,5 @@
 <script setup>
 import MenuCompo from './MenuCompo.vue'
-import VolunteerManagement from './VolunteerManagement.vue'
-
 import { menuItemAdmin } from '@/assets/elements'
 </script>
 
@@ -14,7 +12,7 @@ import { menuItemAdmin } from '@/assets/elements'
       :nameElement="item.nameElement"
     />
   </div>
-  <VolunteerManagement />
+  <router-view />
 </template>
 
 <style scoped>
@@ -27,5 +25,17 @@ import { menuItemAdmin } from '@/assets/elements'
   text-align: center;
   gap: 5%;
   margin-top: 2%;
+}
+
+.btn_add_volunteer {
+  margin: 20px auto;
+  display: block;
+  font-family: 'Helvetica', sans-serif;
+  color: white;
+  font-size: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.5rem;
+  background-color: var(--primary-color);
+  padding: 10px 20px;
 }
 </style>

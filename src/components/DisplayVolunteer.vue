@@ -1,5 +1,7 @@
 <script setup>
-const emit = defineEmits(['view', 'refresh'])
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 import { onMounted, ref } from 'vue'
 
@@ -64,7 +66,10 @@ async function deleteVolunteer() {
     </div>
 
     <div class="div_button">
-      <button class="btn_modification" @click="emit('view', 'formModifVolunteer', volunteer.id)">
+      <button
+        class="btn_modification"
+        @click="router.push({ name: 'ModifVolunteer', params: { id: volunteer.id } })"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
