@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from 'vue'
-
+import { userStore } from '../stores/userStore'
 const emit = defineEmits(['changeView'])
 
 let dataConnexion = reactive({
@@ -24,6 +24,7 @@ async function connexion(dataConnexion) {
       return
     }
     const result = await response.json()
+    userStore.id = result.id
 
     if (dataConnexion.email == 'admin@admin.fr') {
       emit('changeView', 'admin')
