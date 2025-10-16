@@ -1,5 +1,10 @@
 <script setup>
-const emit = defineEmits(['view'])
+const emit = defineEmits(['view', 'refresh'])
+
+import { ref } from 'vue'
+
+const showModal = ref(false)
+const volunteerToDelete = ref(null)
 
 defineProps({
   database: {
@@ -7,6 +12,33 @@ defineProps({
     required: true,
   },
 })
+
+function openModal(volunteer) {
+  volunteerToDelete.value = volunteer.id
+  showModal.value = true
+}
+
+const URL = 'http://localhost:8080'
+//Delete a volunteer
+async function deleteVolunteer() {
+  if (!volunteerToDelete.value) return
+
+  try {
+    const response = await fetch(`${URL}/volunteer/delete/${volunteerToDelete.value}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const result = await response.json()
+    console.log(result)
+
+    showModal.value = false
+    volunteerToDelete.value = null
+
+    emit('refresh')
+  } catch (error) {
+    console.error(error)
+  }
+}
 </script>
 
 <template>
@@ -18,7 +50,7 @@ defineProps({
     </div>
 
     <div class="div_button">
-      <button class="btn_modification" @click="emit('view', 'formModifVolunteer')">
+      <button class="btn_modification" @click="emit('view', 'formModifVolunteer', volunteer.id)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -36,26 +68,35 @@ defineProps({
           />
         </svg>
       </button>
-      <button class="btn_delete">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-trash2-icon lucide-trash-2"
-        >
-          <path d="M10 11v6" />
-          <path d="M14 11v6" />
-          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-          <path d="M3 6h18" />
-          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-        </svg>
-      </button>
+      <div>
+        <button class="btn_delete" @click="openModal(volunteer)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-trash2-icon lucide-trash-2"
+          >
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+            <path d="M3 6h18" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </button>
+        <div v-if="showModal" class="modal-overlay">
+          <div class="modal-content">
+            <p>Êtes-vous sûr de vouloir supprimer ce bénévole ?</p>
+            <button @click="deleteVolunteer" class="btn-yes">Oui</button>
+            <button @click="showModal = false" class="btn-no">Non</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -110,5 +151,43 @@ defineProps({
   font-size: 0.9rem;
   color: var(--text-secondary);
   margin-left: 5%;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.btn-yes {
+  background-color: #e74c3c;
+  color: white;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-no {
+  background-color: #95a5a6;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 </style>

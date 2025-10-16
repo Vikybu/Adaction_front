@@ -43,10 +43,12 @@ watchEffect(() => {
 
 const URL = 'http://localhost:8080'
 
-async function fillForm() {
+//Pré-remplissage des champs du formulaire pour la modification
+async function fillForm(id) {
   const response = await fetch(`${URL}/volunteer/infos`, {
-    method: 'GET',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(id),
   })
   const database = await response.json()
   console.log(database)
@@ -54,6 +56,7 @@ async function fillForm() {
     if (database[key] !== undefined) {
       formData[key] = database[key]
     }
+    formData['id'] = id
   })
 }
 

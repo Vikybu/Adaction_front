@@ -1,20 +1,24 @@
 <script setup>
 import DisplayWaste from './DisplayWaste.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { userStore } from '../stores/userStore'
 
-/*
 const URL = 'http://localhost:8080'
 async function getFirstname(userId) {
   const response = await fetch(`${URL}/volunteer/dashboard/userId`, {
-    method: 'GET',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: { userId },
+    body: JSON.stringify({ id: userId }),
   })
-  const dataFirstname = await response.json()
+  const dataFirstname = await response.text()
   return dataFirstname
 }
-getFirstname(userId)
-*/
+const userName = ref('')
+
+onMounted(async () => {
+  userName.value = await getFirstname(userStore.id)
+})
+
 let actualDate = new Date()
 
 var arrayMonth = new Array(
@@ -63,7 +67,7 @@ function removeAMonth() {
 </script>
 
 <template>
-  <h1>Bonjour {{ userId }} !</h1>
+  <h1>Bonjour {{ userName }} !</h1>
   <div class="div_date_choice">
     <button @click="removeAMonth">&lt;</button>
     <p>{{ month }} {{ year }}</p>

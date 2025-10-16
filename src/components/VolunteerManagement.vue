@@ -7,9 +7,11 @@ import { formLayoutCreationVolunteer } from '@/assets/elements'
 
 const currentView = ref('management')
 const volunteers = ref([])
+const formRef = ref(null)
 
 const URL = 'http://localhost:8080'
 
+//Create a new volunteer
 async function handleSubmit(formData) {
   const jsonData = JSON.stringify(formData)
   console.log('JSON du formulaire :', jsonData)
@@ -23,23 +25,20 @@ async function handleSubmit(formData) {
     Object.keys(formData).forEach((key) => {
       formData[key] = key === 'points' ? 0 : ''
     })
-    setTimeout(function () {
-      alert('Bénévole ajouté avec succès !')
-    }, 2000)
+    alert('Bénévole ajouté avec succès !')
     currentView.value = 'management'
   } else {
-    console.log('Something went wrong 🤔')
-    setTimeout(function () {
-      alert(`Le bénévole n' pas pu $etre enregistré !`)
-    }, 2000)
+    console.log('Something went wrong')
+    alert(`Le bénévole n' pas pu $etre enregistré !`)
   }
 
   const database = await response.text()
   console.log(database)
 }
 
+//Get volunteer informations for the display
 async function getVolunteer() {
-  const response = await fetch(`${URL}/volunteer/display`, {
+  const response = await fetch(`${URL}/volunteer/display-with-city`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -48,9 +47,37 @@ async function getVolunteer() {
   console.log(database)
   return database
 }
-function handleViewChange(newView) {
-  currentView.value = newView
+
+//Modification volunteers' information
+async function modifyVolunteer(formData) {
+  const response = await fetch(`${URL}/volunteer/modify`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData),
+  })
+
+  const result = await response.json()
+  console.log(result)
+
+  if (result.status === 'success') {
+    alert(result.message)
+    currentView.value = 'management'
+    fetchVolunteers()
+  } else {
+    alert(result.message)
+  }
 }
+
+//Change the view
+function handleViewChange(newView, volunteerId) {
+  currentView.value = newView
+  if (newView === 'formModifVolunteer') {
+    setTimeout(() => {
+      formRef.value.fillForm(volunteerId)
+    }, 0)
+  }
+}
+
 async function fetchVolunteers() {
   volunteers.value = await getVolunteer()
   console.log('Volunteers côté front :', volunteers.value)
@@ -106,11 +133,11 @@ onMounted(() => {
 
   <div v-else-if="currentView === 'formModifVolunteer'">
     <FormLayout
-      :functionSubmitted="displayInfos"
+      ref="formRef"
+      :functionSubmitted="modifyVolunteer"
       :title="'Modifier un.e bénévole'"
       :fields="formLayoutCreationVolunteer"
       :button1="'Modifier'"
-      :onButton1Click="() => fillForm(data)"
       :button2="'Annuler'"
       @cancel="currentView = 'management'"
     />
