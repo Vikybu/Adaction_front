@@ -1,10 +1,9 @@
 <template>
-  <div class="max-w-sm mx-auto mt-6 font-sans">
+  <div class="max-auto mx-auto mt-6 font-sans bg-gray-100">
     <h2 class="text-center text-xl font-semibold mb-1">Fair un don</h2>
     <p class="text-center text-green-600 font-medium mb-4">
       💚 Points collectés : {{ userPoints }}
     </p>
-
     <div
       v-for="association in assos"
       :key="association.id"

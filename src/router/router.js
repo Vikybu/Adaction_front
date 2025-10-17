@@ -18,7 +18,7 @@ const routes = [
       { path: 'dashboard', component: VolunteerDashboard },
       { path: 'donation', component: VolunteerDonation },
       { path: 'collect', component: VolunteerCollectCompo},
-      { path: '/volunteer/profile', component: VolunteerManagementVueVolunteer}
+      { path: 'profile', component: VolunteerManagementVueVolunteer}
 
     ],
   },

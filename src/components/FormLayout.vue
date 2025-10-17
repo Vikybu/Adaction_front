@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, watchEffect } from 'vue'
-import { reactive, defineExpose } from 'vue'
+import { defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
@@ -22,23 +22,6 @@ watchEffect(() => {
       formData[field.formElement] = ''
     }
   })
-  fields: {
-    type: Array,
-    required: true,
-  },
-  button1: {
-    type: String,
-    required: true,
-  },
-  onButton1Click: { type: Function, required: false },
-  button2: {
-    type: String,
-    required: true,
-  },
-  functionSubmitted: {
-    type: Function,
-    required: true,
-  },
 })
 
 const URL = 'http://localhost:8080'
