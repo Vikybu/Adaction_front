@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const cities = ref([])
 const selectedCity = ref(null)
+const searchInput = ref('')
 
 import { onMounted, ref, watch } from 'vue'
 
@@ -36,14 +37,13 @@ async function getCities() {
 }
 
 //Display volunteer from the city
-async function getVolunteerByCity(id) {
+async function filterVolunteer(letter, cityId) {
   try {
-    const response = await fetch(`${URL}/volunteer/city/${id}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-    const dataVolunteerByCity = await response.json()
-    volunteers.value = dataVolunteerByCity
+    const urlLetter = letter ?? 'all' // si backend accepte "all" comme aucun filtre
+    const urlCity = cityId ?? 'all'
+    const response = await fetch(`${URL}/volunteer/filter/${urlLetter}/${urlCity}`)
+    const data = await response.json()
+    volunteers.value = data
   } catch (error) {
     volunteers.value = []
     console.error(error)
@@ -91,14 +91,12 @@ async function deleteVolunteer() {
   }
 }
 
-function handleCityChange(city) {
-  console.log('Ville sélectionnée :', city)
-  getVolunteerByCity(city.id)
-}
+watch([searchInput, selectedCity], ([newVal, newCity]) => {
+  const letter = newVal?.trim() || null
+  const cityId = newCity?.id || null
 
-watch(selectedCity, (newCity) => {
-  if (newCity) {
-    handleCityChange(newCity)
+  if (letter || cityId) {
+    filterVolunteer(letter, cityId)
   } else {
     fetchVolunteers()
   }
@@ -128,7 +126,7 @@ watch(selectedCity, (newCity) => {
       Ajouter un bénévole
     </button>
     <div class="div_volunteer_city_filter">
-      <input type="text" placeholder="Rechercher un.e bénévole" />
+      <input v-model="searchInput" type="text" placeholder="Rechercher un.e bénévole" />
       <select v-model="selectedCity" class="city_selector" placeholder="Choisir une ville">
         <option value="">Choisir une ville</option>
         <option v-for="city in cities" :key="city.id" :value="city">
