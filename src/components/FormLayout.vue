@@ -1,15 +1,15 @@
 <script setup>
-import { reactive, watchEffect } from 'vue'
+import { reactive, watchEffect, ref } from 'vue'
 import { defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
-const props = defineProps({
-  title: String,
-  fields: Array,
-  button1: String,
-  button2: String,
-  functionSubmitted: Function,
+const form = ref({
+  firstName: '',
+  lastName: '',
+  email: '',
+  pass_word: '',
+  city_id: '',
 })
 
 // Crée dynamiquement le formData selon les fields
@@ -47,12 +47,28 @@ defineExpose({ fillForm })
 </script>
 
 <template>
-  <h1>{{ title }}</h1>
+  <h1>Ajouter un.e bénévole</h1>
   <form class="form-container" @submit.prevent="props.functionSubmitted(formData)">
     <div class="div_input_form" v-for="(field, index) in props.fields" :key="index">
       <label>
-        {{ field.nameElement }} <br />
-        <input v-model="formData[field.formElement]" :type="field.type" />
+        Prénom <br />
+        <input type="text" v-model="form.firstName" />
+      </label>
+      <label>
+        Nom <br />
+        <input type="text" v-model="form.lastName" />
+      </label>
+      <label>
+        Email <br />
+        <input type="emai" v-model="form.emai" />
+      </label>
+      <label>
+        Mot de passe <br />
+        <input type="text" v-model="form.pass_word" />
+      </label>
+      <label>
+        Localisation <br />
+        <input type="text" v-model="form.city_id" />
       </label>
     </div>
     <button
@@ -60,11 +76,9 @@ defineExpose({ fillForm })
       type="submit"
       @click="onButton1Click ? onButton1Click() : functionSubmitted(formData)"
     >
-      {{ button1 }}
+      Ajouter
     </button>
-    <button @click="emit('cancel')" class="button2" type="button">
-      {{ button2 }}
-    </button>
+    <button @click="emit('cancel')" class="button2" type="button">Annuler</button>
   </form>
 </template>
 
@@ -131,5 +145,4 @@ input {
 .button2 svg {
   vertical-align: middle;
 }
-
 </style>

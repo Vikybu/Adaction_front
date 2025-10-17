@@ -12,10 +12,6 @@ import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
 
-const handleChangeView = (view) => {
-  router.push(`/${view}`)
-}
-
 onMounted(() => {
   if (route.path === '/' || route.path === '') {
     router.push('/')
@@ -28,7 +24,7 @@ onMounted(() => {
     <NavbarCompo />
   </header>
 
-  <router-view @changeView="handleChangeView" />
+  <router-view />
 
   <FooterCompo />
 </template>

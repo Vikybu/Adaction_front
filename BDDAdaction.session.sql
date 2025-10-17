@@ -147,3 +147,15 @@ SELECT email, pass_word FROM volunteer;
 -- @block
 INSERT INTO volunteer (firstName, lastName, email, pass_word, created_at, updated_at, points, city_id)
 VALUES ('admin', 'admin', 'admin@admin.fr', '$2a$10$33umrfKrqWuj5jp4HyqTBOeJNbt1A7nvJDH3sNP2UZ8QiESjI5Are', '2025-10-14', '2025-10-14', 0, 1)
+
+-- @block
+ALTER TABLE collect
+ADD COLUMN city_id INT,
+ADD CONSTRAINT fk_collect_city
+FOREIGN KEY (city_id) REFERENCES city(id);
+
+-- @block
+ALTER TABLE waste ADD COLUMN icone TEXT;
+
+-- @block
+UPDATE waste SET icone = "/icons/glass.svg" WHERE id = 2;

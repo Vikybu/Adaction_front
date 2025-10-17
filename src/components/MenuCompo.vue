@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps({
+const { svg, nameElement, page } = defineProps({
   svg: {
     type: String,
     required: true,

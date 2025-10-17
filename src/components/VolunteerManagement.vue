@@ -1,96 +1,17 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import DisplayVolunteer from './DisplayVolunteer.vue'
-import FormLayout from './FormLayout.vue'
 
-import { formLayoutCreationVolunteer } from '@/assets/elements'
+const router = useRouter()
 
-const currentView = ref('management')
-const volunteers = ref([])
-const formRef = ref(null)
-
-const URL = 'http://localhost:8080'
-
-//Create a new volunteer
-async function handleSubmit(formData) {
-  const jsonData = JSON.stringify(formData)
-  console.log('JSON du formulaire :', jsonData)
-  const response = await fetch(`${URL}/volunteer/add`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: jsonData,
-  })
-
-  if (response.status === 200) {
-    Object.keys(formData).forEach((key) => {
-      formData[key] = key === 'points' ? 0 : ''
-    })
-    alert('Bénévole ajouté avec succès !')
-    currentView.value = 'management'
-  } else {
-    console.log('Something went wrong')
-    alert(`Le bénévole n' pas pu $etre enregistré !`)
-  }
-
-  const database = await response.text()
-  console.log(database)
+function goToCreateVolunteer() {
+  router.push('/admin/add')
 }
-
-//Get volunteer informations for the display
-async function getVolunteer() {
-  const response = await fetch(`${URL}/volunteer/display-with-city`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  })
-
-  const database = await response.json()
-  console.log(database)
-  return database
-}
-
-//Modification volunteers' information
-async function modifyVolunteer(formData) {
-  const response = await fetch(`${URL}/volunteer/modify`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData),
-  })
-
-  const result = await response.json()
-  console.log(result)
-
-  if (result.status === 'success') {
-    alert(result.message)
-    currentView.value = 'management'
-    fetchVolunteers()
-  } else {
-    alert(result.message)
-  }
-}
-
-//Change the view
-function handleViewChange(newView, volunteerId) {
-  currentView.value = newView
-  if (newView === 'formModifVolunteer') {
-    setTimeout(() => {
-      formRef.value.fillForm(volunteerId)
-    }, 0)
-  }
-}
-
-async function fetchVolunteers() {
-  volunteers.value = await getVolunteer()
-  console.log('Volunteers côté front :', volunteers.value)
-}
-
-onMounted(() => {
-  fetchVolunteers()
-})
 </script>
 
 <template>
-  <div v-if="currentView === 'management'">
-    <button class="btn_add_volunteer" @click="currentView = 'formAddVolunteer'">
+  <div>
+    <button class="btn_add_volunteer" @click="goToCreateVolunteer">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -116,31 +37,7 @@ onMounted(() => {
         <option>Toutes les villes</option>
       </select>
     </div>
-
-    <DisplayVolunteer :database="volunteers" @view="handleViewChange" />
-  </div>
-
-  <div v-else-if="currentView === 'formAddVolunteer'">
-    <FormLayout
-      :functionSubmitted="handleSubmit"
-      :title="'Ajouter un.e bénévole'"
-      :fields="formLayoutCreationVolunteer"
-      :button1="'Ajouter'"
-      :button2="'Annuler'"
-      @cancel="currentView = 'management'"
-    />
-  </div>
-
-  <div v-else-if="currentView === 'formModifVolunteer'">
-    <FormLayout
-      ref="formRef"
-      :functionSubmitted="modifyVolunteer"
-      :title="'Modifier un.e bénévole'"
-      :fields="formLayoutCreationVolunteer"
-      :button1="'Modifier'"
-      :button2="'Annuler'"
-      @cancel="currentView = 'management'"
-    />
+    <DisplayVolunteer />
   </div>
 </template>
 
