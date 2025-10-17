@@ -2,27 +2,61 @@
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const cities = ref([])
+const selectedCity = ref(null)
 
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const showModal = ref(false)
 const volunteerToDelete = ref(null)
 const volunteers = ref([])
+
+function goToCreateVolunteer() {
+  router.push('/admin/add')
+}
 
 function openModal(volunteer) {
   volunteerToDelete.value = volunteer.id
   showModal.value = true
 }
 const URL = 'http://localhost:8080'
+
+//Get the city for the select
+async function getCities() {
+  try {
+    const response = await fetch(`${URL}/city/cities`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await response.json()
+    cities.value = data
+  } catch (error) {
+    console.error('Error fetching cities:', error)
+  }
+}
+
+//Display volunteer from the city
+async function getVolunteerByCity(id) {
+  try {
+    const response = await fetch(`${URL}/volunteer/city/${id}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const dataVolunteerByCity = await response.json()
+    volunteers.value = dataVolunteerByCity
+  } catch (error) {
+    volunteers.value = []
+    console.error(error)
+  }
+}
+
 //Get volunteer informations for the display
 async function getVolunteer() {
   const response = await fetch(`${URL}/volunteer/display-with-city`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
-
   const database = await response.json()
-  console.log(database)
   return database
 }
 
@@ -33,6 +67,7 @@ async function fetchVolunteers() {
 
 onMounted(() => {
   fetchVolunteers()
+  getCities()
 })
 
 //Delete a volunteer
@@ -55,9 +90,54 @@ async function deleteVolunteer() {
     console.error(error)
   }
 }
+
+function handleCityChange(city) {
+  console.log('Ville sélectionnée :', city)
+  getVolunteerByCity(city.id)
+}
+
+watch(selectedCity, (newCity) => {
+  if (newCity) {
+    handleCityChange(newCity)
+  } else {
+    fetchVolunteers()
+  }
+})
 </script>
 
 <template>
+  <div>
+    <button class="btn_add_volunteer" @click="goToCreateVolunteer">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-user-plus-icon lucide-user-plus"
+      >
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <line x1="19" x2="19" y1="8" y2="14" />
+        <line x1="22" x2="16" y1="11" y2="11" />
+      </svg>
+      Ajouter un bénévole
+    </button>
+    <div class="div_volunteer_city_filter">
+      <input type="text" placeholder="Rechercher un.e bénévole" />
+      <select v-model="selectedCity" class="city_selector" placeholder="Choisir une ville">
+        <option value="">Choisir une ville</option>
+        <option v-for="city in cities" :key="city.id" :value="city">
+          {{ city.city }}
+        </option>
+      </select>
+    </div>
+  </div>
+
   <div v-for="volunteer in volunteers" :key="volunteer.id" class="div-display-volunteer">
     <div class="div_volunteer_infos">
       <p>{{ volunteer.firstName }}</p>
@@ -121,6 +201,37 @@ async function deleteVolunteer() {
 </template>
 
 <style scoped>
+.btn_add_volunteer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Helvetica', 'sans-serif';
+  color: white;
+  font-size: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.5rem;
+  background-color: var(--primary-color);
+  height: 50px;
+  width: 90%;
+
+  margin: auto;
+}
+
+.div_volunteer_city_filter {
+  margin-top: 4%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3%;
+}
+
+input[type='text'],
+select {
+  width: 40%;
+}
+
 .div-display-volunteer {
   display: flex;
   flex-direction: row;

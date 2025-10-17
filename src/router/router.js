@@ -6,9 +6,9 @@ import VolunteerDonation from '@/components/VolunteerDonation.vue'
 import VolunteerDashboard from '@/components/VolunteerDashboard.vue'
 import VolunteerCollectCompo from '@/components/VolunteerCollectCompo.vue'
 import VolunteerManagementVueVolunteer from '@/components/VolunteerManagementVueVolunteer.vue'
-import VolunteerManagement from '@/components/VolunteerManagement.vue'
 import CreateVolunteerCompo from '@/components/CreateVolunteerCompo.vue'
 import ModifVolunteerCompo from '@/components/ModifVolunteerCompo.vue'
+import DisplayVolunteer from '@/components/DisplayVolunteer.vue'
 
 const routes = [
   { path: '/', component: ConnexionCompo },
@@ -28,7 +28,7 @@ const routes = [
     component: AdminPage,
     redirect: '/admin/dashboard',
     children: [
-      { path: 'dashboard', component: VolunteerManagement },
+      { path: 'dashboard', component: DisplayVolunteer },
       { path: 'add', name: 'CreateVolunteer', component: CreateVolunteerCompo },
       { path: 'modify/:id', name: 'ModifVolunteer', component: ModifVolunteerCompo },
     ],
