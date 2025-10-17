@@ -1,12 +1,13 @@
 <script setup></script>
 
 <template>
-  <label class="block mb-2 text-sm font-medium text-gray-600">Type de déchet *</label>
+  <div class="px-5">
+  <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300 pl-5">Type de déchet *</label>
 
   <div
     v-for="waste in wastes"
     :key="waste.id"
-    class="flex items-center justify-between mb-3 border rounded-xl p-3 transition-all duration-300 bg-white hover:shadow-lg hover:-translate-y-1 cursor-pointer"
+    class="flex items-center justify-between mb-3 border rounded-xl p-3 transition-all duration-300 bg-white hover:shadow-lg hover:-translate-y-1 cursor-pointer border-gray-300 pl-5 pr-1"
   >
     <div class="flex items-center gap-3">
       <!-- Image SVG -->
@@ -18,6 +19,7 @@
       <!-- Nom du déchet -->
       <span class="font-medium text-gray-800">{{ waste.name }}</span>
     </div>
+  </div>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 <script setup>
-import { reactive, defineExpose, ref } from 'vue'
+import { reactive, watchEffect, ref } from 'vue'
+import { defineExpose } from 'vue'
 
 const emit = defineEmits(['cancel'])
 
@@ -13,6 +14,15 @@ const form = ref({
 
 // Crée dynamiquement le formData selon les fields
 const formData = reactive({})
+
+// Dès que les props changent, on (ré)initialise formData
+watchEffect(() => {
+  props.fields.forEach((field) => {
+    if (!(field.formElement in formData)) {
+      formData[field.formElement] = ''
+    }
+  })
+})
 
 const URL = 'http://localhost:8080'
 

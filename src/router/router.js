@@ -19,8 +19,8 @@ const routes = [
     children: [
       { path: 'dashboard', component: VolunteerDashboard },
       { path: 'donation', component: VolunteerDonation },
-      { path: 'collect', component: VolunteerCollectCompo },
-      { path: 'profile', component: VolunteerManagementVueVolunteer },
+      { path: 'collect', component: VolunteerCollectCompo},
+      { path: 'profile', component: VolunteerManagementVueVolunteer}
     ],
   },
   {
