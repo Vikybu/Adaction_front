@@ -10,6 +10,7 @@ import { menuItemAdmin } from '@/assets/elements'
       :key="item.id"
       :svg="item.svg"
       :nameElement="item.nameElement"
+      :page="item.page"
     />
   </div>
   <router-view />
