@@ -6,9 +6,19 @@
       <!-- Titre -->
       <h1 class="text-center font-semibold text-gray-800 mb-5 text-lg">
         <span class="inline-flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-5 h-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+            />
           </svg>
           Enregistrer une collecte
         </span>
@@ -23,26 +33,42 @@
       />
 
       <!-- Localisation -->
-      <label class="block mb-1 text-sm font-medium text-gray-600 border-gray-300">Localisation *</label>
-      <div class="flex items-center mb-4 border border-gray-300 rounded-lg px-2 bg-white focus-within:ring-2 focus-within:ring-emerald-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 11c.828 0 1.5-.672 1.5-1.5S12.828 8 12 8s-1.5.672-1.5 1.5S11.172 11 12 11z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 2c4.418 0 8 3.134 8 7 0 4.97-8 13-8 13S4 13.97 4 9c0-3.866 3.582-7 8-7z" />
-        </svg>
-        <select
-          v-model="city"
-          class="flex-1 p-2 focus:outline-none bg-transparent text-gray-700"
+      <label class="block mb-1 text-sm font-medium text-gray-600 border-gray-300"
+        >Localisation *</label
+      >
+      <div
+        class="flex items-center mb-4 border border-gray-300 rounded-lg px-2 bg-white focus-within:ring-2 focus-within:ring-emerald-500"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 11c.828 0 1.5-.672 1.5-1.5S12.828 8 12 8s-1.5.672-1.5 1.5S11.172 11 12 11z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 2c4.418 0 8 3.134 8 7 0 4.97-8 13-8 13S4 13.97 4 9c0-3.866 3.582-7 8-7z"
+          />
+        </svg>
+        <select v-model="city" class="flex-1 p-2 focus:outline-none bg-transparent text-gray-700">
           <option value="">Sélectionnez une ville</option>
           <option v-for="(c, index) in cityes" :key="index" :value="c">{{ c }}</option>
         </select>
       </div>
 
       <!-- Type de déchets -->
-      <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300">Type de déchet *</label>
+      <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300"
+        >Type de déchet *</label
+      >
 
       <div
         v-for="(waste, index) in wastes"
@@ -77,8 +103,19 @@
         @click="postCollect"
         class="w-full mt-4 bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 font-medium transition-colors"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          />
         </svg>
         Enregistrer
       </button>
@@ -87,6 +124,7 @@
 </template>
 
 <script setup>
+import { userStore } from '@/stores/userStore'
 import { ref, onMounted } from 'vue'
 
 const date = ref('')
@@ -130,7 +168,7 @@ function decrementQuantity(index) {
 async function postCollect() {
   try {
     const wastesMap = {}
-    wastes.value.forEach(w => {
+    wastes.value.forEach((w) => {
       if (w.quantity_waste > 0) wastesMap[w.id] = w.quantity_waste
     })
 
@@ -138,7 +176,8 @@ async function postCollect() {
       created_at: date.value,
       city_id: city.value,
       wasteTypeAndQuantity: wastesMap,
-    }
+      volunteer_id: userStore.id
+       }
 
     console.log('Payload envoyé :', addCollect)
 
@@ -147,6 +186,12 @@ async function postCollect() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(addCollect),
     })
+
+    date.value = ''
+    city.value = ''
+    wastes.value.forEach((w) => (w.quantity_waste = 0))
+
+    alert('Collect enregistré avec succes !')
   } catch (err) {
     console.error('Erreur du POST collect :', err)
   }
