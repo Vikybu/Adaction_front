@@ -30,15 +30,12 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.card-header {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 5%;
-  margin-top: 2%;
+
+
+body {
+  margin: 0;
+  padding: 0;
 }
+
+
 </style>

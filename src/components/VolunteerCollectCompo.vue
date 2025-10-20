@@ -124,6 +124,7 @@
 </template>
 
 <script setup>
+import { userStore } from '@/stores/userStore'
 import { ref, onMounted } from 'vue'
 import { userStore } from '../stores/userStore'
 
@@ -176,8 +177,9 @@ async function postCollect() {
       created_at: date.value,
       city_id: city.value,
       wasteTypeAndQuantity: wastesMap,
-      volunteer_id: userStore.id,
-    }
+      volunteer_id: userStore.id
+       }
+
 
     console.log('Payload envoyé :', addCollect)
 
@@ -186,6 +188,12 @@ async function postCollect() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(addCollect),
     })
+
+    date.value = ''
+    city.value = ''
+    wastes.value.forEach((w) => (w.quantity_waste = 0))
+
+    alert('Collect enregistré avec succes !')
   } catch (err) {
     console.error('Erreur du POST collect :', err)
   }

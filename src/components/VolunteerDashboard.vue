@@ -4,6 +4,7 @@ import { onMounted, ref } from 'vue'
 import { userStore } from '../stores/userStore'
 
 const URL = 'http://localhost:8080'
+
 async function getFirstname(userId) {
   const response = await fetch(`${URL}/volunteer/dashboard/userId`, {
     method: 'POST',
@@ -13,86 +14,81 @@ async function getFirstname(userId) {
   const dataFirstname = await response.text()
   return dataFirstname
 }
+
 const userName = ref('')
 
 onMounted(async () => {
   userName.value = await getFirstname(userStore.id)
 })
 
-let actualDate = new Date()
+const actualDate = new Date()
+const months = [
+  'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre',
+]
 
-var arrayMonth = new Array(
-  'Janvier',
-  'Février',
-  'Mars',
-  'Avril',
-  'Mai',
-  'Juin',
-  'Juillet',
-  'Août',
-  'Septembre',
-  'Octobre',
-  'Novembre',
-  'Décembre',
-)
-
-let nbMonth = ref(actualDate.getMonth())
-let nbYear = ref(actualDate.getFullYear())
-
-const month = ref(arrayMonth[nbMonth.value])
-let year = ref(nbYear.value)
+const nbMonth = ref(actualDate.getMonth())
+const nbYear = ref(actualDate.getFullYear())
+const month = ref(months[nbMonth.value])
+const year = ref(nbYear.value)
 
 function addAMonth() {
   nbMonth.value++
-
   if (nbMonth.value > 11) {
     nbMonth.value = 0
     nbYear.value++
   }
-  month.value = arrayMonth[nbMonth.value]
+  month.value = months[nbMonth.value]
   year.value = nbYear.value
 }
 
 function removeAMonth() {
   nbMonth.value--
-
   if (nbMonth.value < 0) {
     nbMonth.value = 11
     nbYear.value--
   }
-
-  month.value = arrayMonth[nbMonth.value]
+  month.value = months[nbMonth.value]
   year.value = nbYear.value
 }
 </script>
 
 <template>
-  <h1>Bonjour {{ userName }} !</h1>
-  <div class="div_date_choice">
-    <button @click="removeAMonth">&lt;</button>
-    <p>{{ month }} {{ year }}</p>
-    <button @click="addAMonth(nbMonth, nbYear)">></button>
+  <div class="flex flex-col items-center justify-center w-full mt-10 space-y-10 px-6">
+    <!-- Titre -->
+    <h1 class="text-center text-2xl sm:text-3xl font-semibold text-gray-800">
+      Bonjour <span class="text-emerald-700">{{ userName }}</span>
+    </h1>
+
+    <!-- Sélecteur de mois -->
+    <div
+      class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5
+             rounded-xl shadow-sm border border-emerald-100"
+    >
+      <button
+        @click="removeAMonth"
+        class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
+        aria-label="Mois précédent"
+      >
+        ‹
+      </button>
+
+      <p class="text-xl font-medium text-gray-700 text-center">
+        {{ month }} {{ year }}
+      </p>
+
+      <button
+        @click="addAMonth(nbMonth, nbYear)"
+        class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
+        aria-label="Mois suivant"
+      >
+        ›
+      </button>
+    </div>
+
+    <!-- Contenu (déchets) -->
+    <div class="w-full max-w-md">
+      <DisplayWaste />
+    </div>
   </div>
-  <DisplayWaste />
 </template>
-
-<style scoped>
-h1 {
-  font-size: 1.3rem;
-  text-align: center;
-}
-
-.div_date_choice {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 8%;
-}
-
-button,
-p {
-  border: none;
-  font-size: 1.2rem;
-}
-</style>

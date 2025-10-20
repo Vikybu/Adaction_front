@@ -1,27 +1,43 @@
 <template>
-  <div class="max-auto mx-auto mt-6 font-sans bg-gray-100">
-    <h2 class="text-center text-xl font-semibold mb-1">Fair un don</h2>
-    <p class="text-center text-green-600 font-medium mb-4">
-      💚 Points collectés : {{ userPoints }}
-    </p>
+  <div
+    class="w-full max-w-md mx-auto mt-10 font-sans bg-gray-50 rounded-xl shadow-sm p-6 space-y-6"
+  >
+    <!-- Titre -->
+    <div class="text-center space-y-1">
+      <h2 class="text-2xl font-semibold text-gray-800">Faire un don</h2>
+      <p class="text-emerald-600 font-medium">
+        Points collectés : <span class="font-semibold">{{ userPoints }}</span>
+      </p>
+    </div>
+
+    <!-- Liste des associations -->
     <div
       v-for="association in assos"
       :key="association.id"
-        class="bg-white rounded-2xl shadow p-4 mb-4 border border-gray-200 mx-4 transition-transform transform hover:-translate-y-1 hover:shadow-lg duration-200"
+      class="bg-white rounded-2xl shadow p-5 border border-gray-200
+             transition-transform transform hover:-translate-y-1 hover:shadow-lg duration-200"
     >
-      <div class="flex items-start gap-2">
-        <span class="text-2xl mr-2">{{ association.image }}</span>
+      <div class="flex items-start gap-3">
+        <!-- Icône ou emoji -->
+        <span class="text-3xl">{{ association.image }}</span>
 
-        <div>
+        <!-- Infos association -->
+        <div class="flex-1">
           <h3 class="font-bold text-gray-800">{{ association.name }}</h3>
-          <p class="text-sm text-gray-600 mb-2">{{ association.description }}</p>
+          <p class="text-sm text-gray-600 mb-2 leading-snug">
+            {{ association.description }}
+          </p>
         </div>
       </div>
 
-      <div class="flex items-center justify-between mt-2">
-        <p class="text-green-700 font-medium">{{ association.point }} points</p>
+      <!-- Points & bouton -->
+      <div class="flex items-center justify-between mt-4">
+        <p class="text-emerald-600  font-medium">
+          {{ association.point }} points
+        </p>
         <button
-          class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium hover:bg-green-700 transition disabled:bg-gray-300"
+          class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium
+                 hover:bg-emerald-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
           :disabled="userPoints < association.point"
           @click="faireDon(association)"
         >
@@ -37,22 +53,18 @@ import { ref, onMounted } from 'vue'
 
 const userPoints = ref(400)
 const assos = ref([])
-// Liste des associations récupérée depuis le backend
 
+// Récupération des associations
 async function getAsso() {
   try {
-    const response = await fetch('http://localhost:8080/association', {
-      method: 'GET',
-    })
+    const response = await fetch('http://localhost:8080/association', { method: 'GET' })
     const data = await response.json()
-     console.log('Réponse backend :', data)
+    console.log('Réponse backend :', data)
     assos.value = data
-    return assos
   } catch (err) {
-    console.error('Erreur du fetch des viulles :', err)
+    console.error('Erreur du fetch des associations :', err)
   }
 }
-
 
 onMounted(() => {
   getAsso()
@@ -66,9 +78,3 @@ function faireDon(association) {
   }
 }
 </script>
-
-<style scoped>
-body {
-  background-color: #f9fafb;
-}
-</style>
