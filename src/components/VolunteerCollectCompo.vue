@@ -126,7 +126,6 @@
 <script setup>
 import { userStore } from '@/stores/userStore'
 import { ref, onMounted } from 'vue'
-import { userStore } from '../stores/userStore'
 
 const date = ref('')
 const city = ref('')
@@ -177,9 +176,8 @@ async function postCollect() {
       created_at: date.value,
       city_id: city.value,
       wasteTypeAndQuantity: wastesMap,
-      volunteer_id: userStore.id
-       }
-
+      volunteer_id: userStore.id,
+    }
 
     console.log('Payload envoyé :', addCollect)
 
