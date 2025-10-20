@@ -9,6 +9,7 @@ import VolunteerManagementVueVolunteer from '@/components/VolunteerManagementVue
 import CreateVolunteerCompo from '@/components/CreateVolunteerCompo.vue'
 import ModifVolunteerCompo from '@/components/ModifVolunteerCompo.vue'
 import DisplayVolunteer from '@/components/DisplayVolunteer.vue'
+import LeaderboardAdminCompo from '@/components/LeaderboardAdminCompo.vue'
 
 const routes = [
   { path: '/', component: ConnexionCompo },
@@ -19,8 +20,8 @@ const routes = [
     children: [
       { path: 'dashboard', component: VolunteerDashboard },
       { path: 'donation', component: VolunteerDonation },
-      { path: 'collect', component: VolunteerCollectCompo},
-      { path: 'profile', component: VolunteerManagementVueVolunteer}
+      { path: 'collect', component: VolunteerCollectCompo },
+      { path: 'profile', component: VolunteerManagementVueVolunteer },
     ],
   },
   {
@@ -31,6 +32,7 @@ const routes = [
       { path: 'dashboard', component: DisplayVolunteer },
       { path: 'add', name: 'CreateVolunteer', component: CreateVolunteerCompo },
       { path: 'modify/:id', name: 'ModifVolunteer', component: ModifVolunteerCompo },
+      { path: 'leaderboard', name: 'Learderboard', component: LeaderboardAdminCompo },
     ],
   },
 ]

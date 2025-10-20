@@ -19,7 +19,7 @@ export let menuItemAdmin = [
         <path d="M5 21h14" />
       </svg>`,
     nameElement: 'Gestion des bénévoles',
-    hrefElement: '#/gestionBene',
+    page: '/admin/dashboard',
   },
   {
     svg: `<svg xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ export let menuItemAdmin = [
       <path d="M6 9H4.5a1 1 0 0 1 0-5H6"/>
     </svg>`,
     nameElement: 'Leaderboard',
-    hrefElement: '#/leaderboard',
+    page: '/admin/leaderboard',
   },
 ]
 
@@ -128,8 +128,6 @@ export let menuItemVolunteer = [
     page: '/volunteer/profile',
   },
 ]
-
-
 
 export let formLayoutCreationVolunteer = [
   { nameElement: 'Prénom', formElement: 'firstName', type: 'text' },

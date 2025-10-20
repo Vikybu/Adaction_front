@@ -158,4 +158,4 @@ FOREIGN KEY (city_id) REFERENCES city(id);
 ALTER TABLE waste ADD COLUMN icone TEXT;
 
 -- @block
-UPDATE waste SET icone = "/icons/glass.svg" WHERE id = 2;
+UPDATE waste SET icone = "/icons/pastic.svg" WHERE id = 2;
