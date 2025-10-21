@@ -3,6 +3,7 @@ import DisplayWaste from './DisplayWaste.vue'
 import { onMounted, ref } from 'vue'
 import { userStore } from '../stores/userStore'
 
+const wastes = ref([])
 const URL = 'http://localhost:8080'
 
 async function getFirstname(userId) {
@@ -15,16 +16,46 @@ async function getFirstname(userId) {
   return dataFirstname
 }
 
+async function getWaste(userId, month, year) {
+  try {
+    const response = await fetch(`http://localhost:8080/waste/${userId}/${month}/${year}`, {
+      method: 'GET',
+    })
+    const data = await response.json()
+    wastes.value = data
+    console.log(wastes)
+    return wastes
+  } catch (err) {
+    console.error('Erreur du fetch :', err)
+  }
+}
+
 const userName = ref('')
 
 onMounted(async () => {
+  if (!userStore.id) {
+    console.error('userStore.id non défini')
+    return
+  }
+
   userName.value = await getFirstname(userStore.id)
+  getWaste(userStore.id, nbMonth.value + 1, nbYear.value)
 })
 
 const actualDate = new Date()
 const months = [
-  'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre',
+  'Janvier',
+  'Février',
+  'Mars',
+  'Avril',
+  'Mai',
+  'Juin',
+  'Juillet',
+  'Août',
+  'Septembre',
+  'Octobre',
+  'Novembre',
+  'Décembre',
 ]
 
 const nbMonth = ref(actualDate.getMonth())
@@ -32,7 +63,7 @@ const nbYear = ref(actualDate.getFullYear())
 const month = ref(months[nbMonth.value])
 const year = ref(nbYear.value)
 
-function addAMonth() {
+function addAMonth(userId) {
   nbMonth.value++
   if (nbMonth.value > 11) {
     nbMonth.value = 0
@@ -40,9 +71,10 @@ function addAMonth() {
   }
   month.value = months[nbMonth.value]
   year.value = nbYear.value
+  getWaste(userId, nbMonth.value + 1, nbYear.value)
 }
 
-function removeAMonth() {
+function removeAMonth(userId) {
   nbMonth.value--
   if (nbMonth.value < 0) {
     nbMonth.value = 11
@@ -50,6 +82,7 @@ function removeAMonth() {
   }
   month.value = months[nbMonth.value]
   year.value = nbYear.value
+  getWaste(userId, nbMonth.value + 1, nbYear.value)
 }
 </script>
 
@@ -62,23 +95,20 @@ function removeAMonth() {
 
     <!-- Sélecteur de mois -->
     <div
-      class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5
-             rounded-xl shadow-sm border border-emerald-100"
+      class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5 rounded-xl shadow-sm border border-emerald-100"
     >
       <button
-        @click="removeAMonth"
+        @click="removeAMonth(userStore.id)"
         class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
         aria-label="Mois précédent"
       >
         ‹
       </button>
 
-      <p class="text-xl font-medium text-gray-700 text-center">
-        {{ month }} {{ year }}
-      </p>
+      <p class="text-xl font-medium text-gray-700 text-center">{{ month }} {{ year }}</p>
 
       <button
-        @click="addAMonth(nbMonth, nbYear)"
+        @click="addAMonth(userStore.id)"
         class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
         aria-label="Mois suivant"
       >
@@ -88,7 +118,12 @@ function removeAMonth() {
 
     <!-- Contenu (déchets) -->
     <div class="w-full max-w-md">
-      <DisplayWaste />
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300 pl-5"
+          >Type de déchet *</label
+        >
+      </div>
+      <DisplayWaste v-for="waste in wastes" :key="waste.wasteId" :waste="waste" />
     </div>
   </div>
 </template>
