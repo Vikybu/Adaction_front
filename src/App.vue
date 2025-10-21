@@ -2,10 +2,6 @@
 import FooterCompo from './components/FooterCompo.vue'
 import NavbarCompo from './components/NavbarCompo.vue'
 
-//import { ref, computed } from 'vue'
-//import Collect from './Collect.vue'
-//import Donation from './Daonation.vue'
-//import Profil from './Profil.vue'
 import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -20,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <header>
+  <header class="m-0 p-0">
     <NavbarCompo />
   </header>
 

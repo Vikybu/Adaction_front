@@ -26,7 +26,8 @@ import MenuCompo from './MenuCompo.vue'
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 5%;
-  margin-top: 2%;
+  gap: 0.5rem;
+  padding: 0.5rem;
+
 }
 </style>

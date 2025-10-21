@@ -4,7 +4,7 @@
     <!-- Carte du formulaire -->
     <div class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6">
       <!-- Titre -->
-      <h1 class="text-center font-semibold text-gray-800 mb-5 text-lg">
+    <h1 class="text-center font-semibold text-gray-800 mb-5 text-2xl">
         <span class="inline-flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
