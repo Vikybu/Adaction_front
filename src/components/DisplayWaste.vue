@@ -1,4 +1,15 @@
-<script setup></script>
+<script>
+export default {
+  name: 'DisplayWaste',
+  props: {
+    waste: {
+      type: Object,
+      required: false,
+      default: () => ({ icone: '', name: '', total_quantity: 0 }),
+    },
+  },
+}
+</script>
 
 <template>
   <div>
@@ -20,31 +31,7 @@
       <span class="font-medium text-gray-800">{{ waste.name }}</span>
     </div>
   </div>
-  </div>
 </template>
-
-
-<script setup>
-import { ref, onMounted } from 'vue'
-const wastes = ref([])
-
-async function getWaste() {
-  try {
-    const response = await fetch('http://localhost:8080/waste', {
-      method: 'GET',
-    })
-    const data = await response.json()
-    wastes.value = data
-    return wastes
-  } catch (err) {
-    console.error('Erreur du fetch des viulles :', err)
-  }
-}
-
-onMounted(() => {
-  getWaste()
-})
-</script>
 
 <style scoped>
 .div_display_waste {

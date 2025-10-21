@@ -158,4 +158,17 @@ FOREIGN KEY (city_id) REFERENCES city(id);
 ALTER TABLE waste ADD COLUMN icone TEXT;
 
 -- @block
-UPDATE waste SET icone = "/icons/pastic.svg" WHERE id = 2;
+UPDATE waste SET icone = "/icons/plastic.svg" WHERE id = 2;
+
+-- @block
+CREATE TABLE admin (
+   email VARCHAR(100) NOT NULL,
+   pass_word VARCHAR(100) NOT NULL
+);
+
+-- @block
+INSERT INTO admin (email, pass_word)
+VALUES ('admin@admin.fr', '$2a$10$33umrfKrqWuj5jp4HyqTBOeJNbt1A7nvJDH3sNP2UZ8QiESjI5Are')
+
+-- @block
+ALTER TABLE admin ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY;

@@ -142,7 +142,7 @@ async function getCity() {
   }
 }
 
-async function getWaste() {
+async function getListWaste() {
   try {
     const response = await fetch('http://localhost:8080/waste')
     const data = await response.json()
@@ -154,7 +154,7 @@ async function getWaste() {
 
 onMounted(() => {
   getCity()
-  getWaste()
+  getListWaste()
 })
 
 function incrementQuantity(index) {

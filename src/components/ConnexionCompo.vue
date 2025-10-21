@@ -1,9 +1,10 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { userStore } from '../stores/userStore'
 
 const router = useRouter()
+const erreur = ref('')
 
 let dataConnexion = reactive({
   email: '',
@@ -23,18 +24,24 @@ async function connexion(dataConnexion) {
 
     if (!response.ok) {
       console.error('Erreur serveur :', response.status, await response.text())
+      erreur.value = 'Email ou mot de passe incorrect'
+      console.log('Erreur mise à jour :', erreur.value)
       return
     }
     const result = await response.json()
-    userStore.id = result.id
 
-    if (dataConnexion.email === 'admin@admin.fr') {
+    if (Number(result.id) === 0) {
       router.push('/admin/dashboard')
-    } else {
+    } else if (result.id) {
+      userStore.id = result.id
       router.push('/volunteer/dashboard')
+    } else {
+      erreur.value = 'Email ou mot de passe incorrect'
     }
   } catch (error) {
     console.error('Erreur fetch :', error)
+    erreur.value = 'Email ou mot de passe incorrect'
+    console.log('Erreur catch :', erreur.value)
   }
 }
 </script>
