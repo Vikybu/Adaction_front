@@ -87,19 +87,22 @@ function removeAMonth(userId) {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center w-full mt-10 space-y-10 px-6">
+  <div class="min-h-screen bg-gray-100 flex justify-center items-start py-10 font-sans">
+    <!-- Carte du formulaire -->
+    <div class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6">
     <!-- Titre -->
-    <h1 class="text-center text-2xl sm:text-3xl font-semibold text-gray-800">
+    <h1 class="text-center font-semibold text-gray-800 mb-5 text-2xl">
       Bonjour <span class="text-emerald-700">{{ userName }}</span>
     </h1>
 
     <!-- Sélecteur de mois -->
     <div
-      class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5 rounded-xl shadow-sm border border-emerald-100"
+      class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5
+             rounded-xl shadow-sm border border-emerald-100 text-3xl"
     >
       <button
-        @click="removeAMonth(userStore.id)"
-        class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
+        @click="removeAMonth"
+        class="text-emerald-700 font-bold hover:text-emerald-800 transition"
         aria-label="Mois précédent"
       >
         ‹
@@ -117,13 +120,10 @@ function removeAMonth(userId) {
     </div>
 
     <!-- Contenu (déchets) -->
-    <div class="w-full max-w-md">
-      <div>
-        <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300 pl-5"
-          >Type de déchet *</label
-        >
-      </div>
-      <DisplayWaste v-for="waste in wastes" :key="waste.wasteId" :waste="waste" />
+    <div class="w-full">
+      <DisplayWaste />
     </div>
   </div>
+  </div>
+
 </template>

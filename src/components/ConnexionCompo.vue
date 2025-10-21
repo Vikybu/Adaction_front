@@ -18,7 +18,7 @@ async function connexion(dataConnexion) {
     const response = await fetch(`${URL}/adaction/connexion`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      //credentials: 'include', utile lorsqu'on fait du localstorage/cookie a etudier pour prochaine fois
       body: JSON.stringify(dataConnexion),
     })
 
@@ -47,40 +47,51 @@ async function connexion(dataConnexion) {
 </script>
 
 <template>
-  <form class="form_connexion" @submit.prevent="connexion(dataConnexion)">
-    <p class="text-red-500 text-center font-semibold mt-2" v-if="erreur">{{ erreur }}</p>
-    <div class="div_connexion">
-      <label
-        >Email de connexion
-        <input type="text" v-model="dataConnexion.email" />
-      </label>
-      <label>
-        Mot de passe
-        <input type="password" v-model="dataConnexion.pass_word" />
-      </label>
-      <button type="submit">Se connecter</button>
-    </div>
-  </form>
+  <div class="min-h-screen bg-gray-100 flex justify-center items-start py-10 font-sans">
+    <form
+      class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center gap-6"
+      @submit.prevent="connexion(dataConnexion)"
+    >
+      <!-- Titre -->
+      <h1 class="text-2xl font-semibold text-gray-800 text-center">
+        Connexion
+      </h1>
+
+      <!-- Email -->
+      <div class="w-full flex flex-col gap-1">
+        <label for="email" class="text-gray-700 font-medium">Email de connexion</label>
+        <input
+          id="email"
+          type="email"
+          v-model="dataConnexion.email"
+          placeholder="Votre email"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        />
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="w-full flex flex-col gap-1">
+        <label for="password" class="text-gray-700 font-medium">Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          v-model="dataConnexion.pass_word"
+          placeholder="Votre mot de passe"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        />
+      </div>
+
+      <!-- Bouton -->
+      <button
+        type="submit"
+        class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2
+               rounded-lg shadow-md transition-colors duration-200"
+      >
+        Se connecter
+      </button>
+    </form>
+  </div>
 </template>
 
-<style scoped>
-.div_connexion {
-  margin-top: 2%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5%;
-}
-
-button {
-  font-family: 'Helvetica', 'sans-serif';
-  color: white;
-  font-size: 1rem;
-  border: 1px solid var(--primary-color);
-  border-radius: 0.5rem;
-  background-color: var(--primary-color);
-  padding: 1%;
-  margin-top: 3%;
-}
-</style>

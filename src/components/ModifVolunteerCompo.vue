@@ -51,96 +51,94 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1>Modifier un.e bénévole</h1>
-  <form class="form-container" @submit.prevent="modifyVolunteer(form)">
-    <div class="div_input_form">
-      <label>
-        Prénom<br />
-        <input v-model="form.firstName" type="text" />
-      </label>
-      <label>
-        Nom<br />
-        <input v-model="form.lastName" type="text" />
-      </label>
-      <label>
-        Email<br />
-        <input v-model="form.email" type="email" />
-      </label>
-      <label>
-        Mot de passe<br />
-        <input v-model="form.pass_word" type="text" />
-      </label>
-      <label>
-        Localisation<br />
-        <input v-model="form.city_id" type="text" />
-      </label>
-    </div>
-    <button class="button1" type="submit">Modifier</button>
-    <button @click="cancelForm" class="button2" type="button">Annuler</button>
-  </form>
+  <div class="min-h-screen bg-gray-100 flex justify-center items-start py-10 font-sans">
+    <!-- Carte du formulaire -->
+    <form
+      class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-6"
+      @submit.prevent="modifyVolunteer(form)"
+    >
+      <!-- Titre -->
+      <h1 class="text-center text-2xl font-semibold text-gray-800">
+        Modifier un·e bénévole
+      </h1>
+
+      <!-- Champs du formulaire -->
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Prénom</label>
+          <input
+            v-model="form.firstName"
+            type="text"
+            placeholder="Prénom"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Nom</label>
+          <input
+            v-model="form.lastName"
+            type="text"
+            placeholder="Nom"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            placeholder="Adresse email"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Mot de passe</label>
+          <input
+            v-model="form.pass_word"
+            type="password"
+            placeholder="Mot de passe"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Localisation</label>
+          <input
+            v-model="form.city_id"
+            type="text"
+            placeholder="Ville ou commune"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="flex flex-col gap-3 mt-4">
+        <button
+          type="submit"
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2
+                 rounded-lg shadow-md transition-colors duration-200"
+        >
+          Modifier
+        </button>
+
+        <button
+          type="button"
+          @click="cancelForm"
+          class="w-full bg-gray-600 hover:bg-gray-700 text-white font-medium py-2
+                 rounded-lg shadow-md transition-colors duration-200"
+        >
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
-
-<style scoped>
-h1 {
-  text-align: center;
-  padding-top: 1rem;
-  font-size: 1.3rem;
-  font-weight: 600;
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin: 1.5rem;
-}
-
-input {
-  margin-top: 2%;
-  border: 1px solid var(--primary-color);
-  width: 100%;
-  height: 35px;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.1);
-  border-radius: 0.3rem;
-  background-color: white;
-}
-.button1,
-.button2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-family: 'Helvetica', sans-serif;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  height: 50px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.button1 {
-  background-color: var(--primary-color);
-  color: white;
-  border: 1px solid var(--primary-color);
-}
-
-.button1:hover {
-  background-color: #059669;
-}
-
-.button2 {
-  background-color: var(--text-secondary);
-  color: white;
-  border: 1px solid var(--text-secondary);
-}
-
-.button2:hover {
-  background-color: #4b5563;
-}
-
-.button1 svg,
-.button2 svg {
-  vertical-align: middle;
-}
-</style>

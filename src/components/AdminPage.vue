@@ -24,8 +24,8 @@ import { menuItemAdmin } from '@/assets/elements'
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 5%;
-  margin-top: 2%;
+   gap: 0.5rem;
+  padding: 0.5rem;
 }
 
 .btn_add_volunteer {
