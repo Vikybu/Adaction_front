@@ -90,40 +90,41 @@ function removeAMonth(userId) {
   <div class="min-h-screen bg-gray-100 flex justify-center items-start py-10 font-sans">
     <!-- Carte du formulaire -->
     <div class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6">
-    <!-- Titre -->
-    <h1 class="text-center font-semibold text-gray-800 mb-5 text-2xl">
-      Bonjour <span class="text-emerald-700">{{ userName }}</span>
-    </h1>
+      <!-- Titre -->
+      <h1 class="text-center font-semibold text-gray-800 mb-5 text-2xl">
+        Bonjour <span class="text-emerald-700">{{ userName }}</span>
+      </h1>
 
-    <!-- Sélecteur de mois -->
-    <div
-      class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5
-             rounded-xl shadow-sm border border-emerald-100 text-3xl"
-    >
-      <button
-        @click="removeAMonth"
-        class="text-emerald-700 font-bold hover:text-emerald-800 transition"
-        aria-label="Mois précédent"
+      <!-- Sélecteur de mois -->
+      <div
+        class="flex items-center justify-between w-full max-w-md bg-emerald-50 px-8 py-5 rounded-xl shadow-sm border border-emerald-100 text-3xl"
       >
-        ‹
-      </button>
+        <button
+          @click="removeAMonth(userStore.id)"
+          class="text-emerald-700 font-bold hover:text-emerald-800 transition"
+          aria-label="Mois précédent"
+        >
+          ‹
+        </button>
 
-      <p class="text-xl font-medium text-gray-700 text-center">{{ month }} {{ year }}</p>
+        <p class="text-xl font-medium text-gray-700 text-center">{{ month }} {{ year }}</p>
 
-      <button
-        @click="addAMonth(userStore.id)"
-        class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
-        aria-label="Mois suivant"
-      >
-        ›
-      </button>
-    </div>
+        <button
+          @click="addAMonth(userStore.id)"
+          class="text-emerald-700 text-3xl font-bold hover:text-emerald-800 transition"
+          aria-label="Mois suivant"
+        >
+          ›
+        </button>
+      </div>
 
-    <!-- Contenu (déchets) -->
-    <div class="w-full">
-      <DisplayWaste />
+      <!-- Contenu (déchets) -->
+      <div class="w-full max-w-md">
+        <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300 pl-5"
+          >Type de déchet *</label
+        >
+      </div>
+      <DisplayWaste v-for="waste in wastes" :key="waste.wasteId" :waste="waste" />
     </div>
   </div>
-  </div>
-
 </template>
