@@ -120,8 +120,8 @@ function removeAMonth(userId) {
 
       <!-- Contenu (déchets) -->
       <div class="w-full max-w-md">
-        <label class="block mb-2 text-sm font-medium text-gray-600 border-gray-300 pl-5"
-          >Type de déchet *</label
+        <label class="block mb-2 text-m mt-3 font-medium text-gray-600 border-gray-300 py-2 pl-5"
+          >Type de déchet : </label
         >
       </div>
       <DisplayWaste v-for="waste in wastes" :key="waste.wasteId" :waste="waste" />
