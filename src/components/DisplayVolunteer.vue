@@ -2,7 +2,6 @@
   <div class="min-h-screen w-full bg-gray-100 flex justify-center items-start py-10 font-sans">
     <!-- Carte principale -->
     <div class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6 flex flex-col mx-auto">
-
       <!-- Bouton d'ajout -->
       <button
         @click="goToCreateVolunteer"
@@ -63,11 +62,21 @@
               class="bg-blue-100 text-blue-800 p-2 rounded-md border border-blue-200 hover:bg-blue-200 transition"
               @click="router.push({ name: 'ModifVolunteer', params: { id: volunteer.id } })"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-pen">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-pen"
+              >
                 <path
-                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" />
+                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                />
               </svg>
             </button>
 
@@ -75,9 +84,18 @@
               class="bg-red-100 text-red-700 p-2 rounded-md border border-red-200 hover:bg-red-200 transition"
               @click="openModal(volunteer)"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="lucide lucide-trash-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-trash-2"
+              >
                 <path d="M10 11v6" />
                 <path d="M14 11v6" />
                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
@@ -90,9 +108,7 @@
       </div>
 
       <!-- Aucun bénévole -->
-      <p v-else class="text-gray-500 text-sm mt-6 italic text-center">
-        Aucun·e bénévole trouvé·e
-      </p>
+      <p v-else class="text-gray-500 text-sm mt-6 italic text-center">Aucun·e bénévole trouvé·e</p>
 
       <!-- Modal suppression -->
       <div
@@ -121,7 +137,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { useRouter } from 'vue-router'
 import { onMounted, ref, watch } from 'vue'
@@ -145,7 +160,6 @@ function openModal(volunteer) {
   showModal.value = true
 }
 
-// === API CALLS ===
 async function getCities() {
   try {
     const response = await fetch(`${URL}/city/cities`)
@@ -157,11 +171,7 @@ async function getCities() {
 
 async function getVolunteer() {
   const response = await fetch(`${URL}/volunteer/display-with-city`)
-  return await response.json()
-}
-
-async function fetchVolunteers() {
-  volunteers.value = await getVolunteer()
+  return (volunteers.value = await response.json()) //recupere la liste envoyé par le back
 }
 
 async function filterVolunteer(letter, cityId) {
@@ -182,15 +192,14 @@ async function deleteVolunteer() {
     await fetch(`${URL}/volunteer/delete/${volunteerToDelete.value}`, { method: 'DELETE' })
     showModal.value = false
     volunteerToDelete.value = null
-    fetchVolunteers()
+    getVolunteer()
   } catch (error) {
     console.error(error)
   }
 }
 
-// === WATCHERS & MOUNT ===
 onMounted(() => {
-  fetchVolunteers()
+  getVolunteer()
   getCities()
 })
 
@@ -200,7 +209,7 @@ watch([searchInput, selectedCity], ([newVal, newCity]) => {
   if (letter || cityId) {
     filterVolunteer(letter, cityId)
   } else {
-    fetchVolunteers()
+    getVolunteer()
   }
 })
 </script>

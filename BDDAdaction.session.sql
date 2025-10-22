@@ -172,3 +172,16 @@ VALUES ('admin@admin.fr', '$2a$10$33umrfKrqWuj5jp4HyqTBOeJNbt1A7nvJDH3sNP2UZ8QiE
 
 -- @block
 ALTER TABLE admin ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY;
+
+-- @block 
+ALTER TABLE volunteer ADD COLUMN active BOOLEAN DEFAULT TRUE;
+
+-- @block
+ALTER TABLE collect
+ADD COLUMN active TINYINT(1) DEFAULT 1;
+
+-- @block
+UPDATE collect c
+JOIN volunteer v ON c.volunteer_id = v.id
+SET c.active = 0
+WHERE v.active = 0;
