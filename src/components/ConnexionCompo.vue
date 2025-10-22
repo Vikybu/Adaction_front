@@ -56,7 +56,7 @@ async function connexion(dataConnexion) {
       <h1 class="text-2xl font-semibold text-gray-800 text-center">
         Connexion
       </h1>
-
+      <p class="text-red-500 text-center font-semibold mt-2" v-if="erreur">{{ erreur }}</p>
       <!-- Email -->
       <div class="w-full flex flex-col gap-1">
         <label for="email" class="text-gray-700 font-medium">Email de connexion</label>
