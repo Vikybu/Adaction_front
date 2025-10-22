@@ -1,25 +1,75 @@
-<template>
-  <div class="flex min-h-screen items-start py-10 justify-center bg-gray-100">
-    <div class="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8">
-      <h1 class="text-2xl font-semibold text-center mb-6 text-gray-800">
-        Mon profil
+<template><div class="min-h-screen bg-gray-100 flex justify-center items-start py-10 font-sans">
+    <!-- Carte du formulaire -->
+    <form
+      class="w-full max-w-sm bg-white shadow-lg rounded-2xl p-6 flex flex-col gap-6"
+      @submit.prevent="modifyVolunteer(form)"
+    >
+      <!-- Titre -->
+      <h1 class="text-center text-2xl font-semibold text-gray-800">
+        Modification profil
       </h1>
 
-      <form class="space-y-4" @submit.prevent="handleSignup">
-        <div v-for="(field, index) in fields" :key="index" class="flex flex-col">
-          <label class="text-gray-700 font-medium mb-1">
-            {{ field.nameElement }}
-          </label>
+      <!-- Champs du formulaire -->
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Prénom</label>
           <input
-            v-model="formData[field.formElement]"
-            :type="field.type"
-            :placeholder="'Votre ' + field.nameElement.toLowerCase()"
-            class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            v-model="form.firstName"
+            type="text"
+            placeholder="Prénom"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           />
         </div>
 
-        <button
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Nom</label>
+          <input
+            v-model="form.lastName"
+            type="text"
+            placeholder="Nom"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            placeholder="Adresse email"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Mot de passe</label>
+          <input
+            v-model="form.pass_word"
+            type="password"
+            placeholder="Mot de passe"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+
+        <div class="flex flex-col">
+          <label class="text-gray-700 font-medium mb-1">Localisation</label>
+          <input
+            v-model="form.city_id"
+            type="text"
+            placeholder="Ville ou commune"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700
+                   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+        </div>
+      </div>
+
+  <button
           type="submit"
+          @click="handleSignup"
           class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 rounded-lg flex items-center justify-center gap-2 transition-colors"
         >
           <span v-html="button1"></span>
@@ -34,54 +84,69 @@
           <span v-html="button2"></span>
           <span>Déconnexion</span>
         </button>
-      </form>
-    </div>
+
+    </form>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
 import { userStore } from '@/stores/userStore'
-import { reactive } from 'vue'
+import { onMounted, ref} from 'vue'
 
 const router = useRouter()
 
 // Données du formulaire
-const formData = reactive({
+/* const formData = ref({
   firstName: '',
   lastName: '',
-  cityName: ''
+  city_id: '',
+}) */
+
+const form = ref({
+  firstName: '',
+  lastName: '',
+  email: '',
+  pass_word: '',
+  city_id: '',
 })
 
+
 // Champs dynamiques
-const fields = [
+/* const fields = [
   { nameElement: 'Prénom', formElement: 'firstName', type: 'text' },
   { nameElement: 'Nom', formElement: 'lastName', type: 'text' },
   { nameElement: 'Ville', formElement: 'cityName', type: 'text' },
-]
+] */
+const URL = 'http://localhost:8080'
 
 // Fonction d’envoi
-const handleSignup = async () => {
-  try {
-    const response = await fetch(`http://localhost:8080/volunteer/update/${userStore.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    })
+async function modifyVolunteer(formData) {
+  const dataToSend = { ...formData }
 
-    if (!response.ok) {
-      const errText = await response.text()
-      throw new Error(`Erreur serveur (${response.status}) : ${errText}`)
-    }
-
-    const data = await response.json()
-    console.log('Profil mis à jour côté serveur :', data)
-    alert('Profil mis à jour avec succès')
-  } catch (error) {
-    console.error('Erreur :', error)
-    alert('Une erreur est survenue : ' + error.message)
+  if (!dataToSend.pass_word || dataToSend.pass_word.trim() === '') {
+    delete dataToSend.pass_word
   }
+  const response = await fetch(`${URL}/volunteer/modify`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(dataToSend),
+  })
+  const result = await response.json()
+  console.log(result)
+  alert("Bénévole modifié avec succès.")
 }
+
+async function getInfoVolunteer(id){
+  const response = await fetch(`http://localhost:8080/volunteer/infos/${id}`, { method: 'GET' })
+  const data = await response.json()
+  Object.assign(form.value, data)
+}
+
+onMounted(() => {
+  getInfoVolunteer(userStore.id)
+
+})
 
 // Déconnexion
 const handleLogout = () => {

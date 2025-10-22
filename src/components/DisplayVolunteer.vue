@@ -145,7 +145,7 @@ function openModal(volunteer) {
   showModal.value = true
 }
 
-// === API CALLS ===
+
 async function getCities() {
   try {
     const response = await fetch(`${URL}/city/cities`)
@@ -157,12 +157,10 @@ async function getCities() {
 
 async function getVolunteer() {
   const response = await fetch(`${URL}/volunteer/display-with-city`)
-  return await response.json()
+  return volunteers.value =  await response.json() //recupere la liste envoyé par le back
 }
 
-async function fetchVolunteers() {
-  volunteers.value = await getVolunteer()
-}
+
 
 async function filterVolunteer(letter, cityId) {
   try {
@@ -182,7 +180,7 @@ async function deleteVolunteer() {
     await fetch(`${URL}/volunteer/delete/${volunteerToDelete.value}`, { method: 'DELETE' })
     showModal.value = false
     volunteerToDelete.value = null
-    fetchVolunteers()
+    getVolunteer()
   } catch (error) {
     console.error(error)
   }
@@ -190,7 +188,7 @@ async function deleteVolunteer() {
 
 // === WATCHERS & MOUNT ===
 onMounted(() => {
-  fetchVolunteers()
+  getVolunteer()
   getCities()
 })
 
@@ -200,7 +198,7 @@ watch([searchInput, selectedCity], ([newVal, newCity]) => {
   if (letter || cityId) {
     filterVolunteer(letter, cityId)
   } else {
-    fetchVolunteers()
+    getVolunteer()
   }
 })
 </script>
