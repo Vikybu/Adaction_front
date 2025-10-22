@@ -191,7 +191,7 @@ async function postCollect() {
     city.value = ''
     wastes.value.forEach((w) => (w.quantity_waste = 0))
 
-    alert('Collect enregistré avec succes !')
+    alert('Collecte enregistrée avec succès !')
   } catch (err) {
     console.error('Erreur du POST collect :', err)
   }

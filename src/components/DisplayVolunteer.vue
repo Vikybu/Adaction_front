@@ -174,6 +174,7 @@ async function getVolunteer() {
   return (volunteers.value = await response.json()) //recupere la liste envoyé par le back
 }
 
+
 async function filterVolunteer(letter, cityId) {
   try {
     const urlLetter = letter ?? 'all'
