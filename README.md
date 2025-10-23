@@ -21,7 +21,7 @@ Stack used for the front-end part :
 - Tailwind
 
 Here some pictures of the final application : 
-Connexion page to Adaction :
+Connexion page to Adaction : </br>
 <img width="469" height="384" alt="connexion_adaction" src="https://github.com/user-attachments/assets/c4542171-e131-4b56-958a-73f7c2a74548" />
 
 Admin page with the display of the volunteer :
