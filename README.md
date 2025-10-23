@@ -1,6 +1,6 @@
 # adaction_front
 
-Creation of the front-end part of the application Adaction.
+Creation of the frontend part of the application Adaction.
 
 Adaction is an association that raises awareness about litter collection (cigarette butts, plastic packaging, etc.).
 
@@ -14,9 +14,9 @@ The aim is to develop an application with:
       ° which allows collections to be recorded according to collection location and type
       ° which allows points earned through collections to be spent
 
-This project work with a back-end part (java spring boot) and a database (MySQL). You can find the code of this part here : https://github.com/Juliette-bot/Adaction-Back 
+This project work with a backend part (java spring boot) and a database (MySQL). You can find the code of this part here : [https://github.com/Juliette-bot/Adaction-Back](https://github.com/Vikybu/Adaction_Back) 
 
-Stack used for the front-end part :
+Stack used for the frontend part :
 - Vue.js
 - Tailwind
 
