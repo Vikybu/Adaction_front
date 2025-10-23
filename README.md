@@ -1,44 +1,45 @@
 # adaction_front
 
-This template should help get you started developing with Vue 3 in Vite.
+Creation of the front-end part of the application Adaction.
 
-## Recommended IDE Setup
+Adaction is an association that raises awareness about litter collection (cigarette butts, plastic packaging, etc.).
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The aim is to develop an application with:
 
-## Recommended Browser Setup
+- an association view
+      ° which allows volunteer accounts to be created
+      ° which allows overall collection statistics to be tracked
+  
+- a volunteer view
+      ° which allows collections to be recorded according to collection location and type
+      ° which allows points earned through collections to be spent
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+This project work with a back-end part (java spring boot) and a database (MySQL). You can find the code of this part here : https://github.com/Juliette-bot/Adaction-Back 
 
-## Customize configuration
+Stack used for the front-end part :
+- Vue.js
+- Tailwind
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Here some pictures of the final application : 
+Connexion page to Adaction :
+<img width="469" height="384" alt="connexion_adaction" src="https://github.com/user-attachments/assets/c4542171-e131-4b56-958a-73f7c2a74548" />
 
-## Project Setup
+Admin page with the display of the volunteer :
+<img width="365" height="358" alt="Admin_adaction" src="https://github.com/user-attachments/assets/4fbb2140-e4e5-46d7-9fb5-f32f201cde09" />
 
-```sh
-npm install
-```
+Admin page ; leaderboard of the volunteer :
+<img width="403" height="361" alt="leaderboard_adaction" src="https://github.com/user-attachments/assets/184386ec-aa5e-4110-a52e-49e4f1320ae9" />
 
-### Compile and Hot-Reload for Development
+Volunteer page ; Dashboard :
+<img width="383" height="372" alt="dashboardVolunteer_adaction" src="https://github.com/user-attachments/assets/ecb174b3-09c1-4d5e-8248-959670620520" />
 
-```sh
-npm run dev
-```
+Volunteer page ; Add a collect :
+<img width="215" height="353" alt="addACollect_adaction" src="https://github.com/user-attachments/assets/2be4e94c-47d6-4afa-a764-55082e11125d" />
 
-### Compile and Minify for Production
+Volunteer page ; Donation page : 
+<img width="237" height="403" alt="Donation_adaction" src="https://github.com/user-attachments/assets/38d27918-1b4a-4e81-b2cd-50b8b7817d76" />
 
-```sh
-npm run build
-```
+Volunteer Page ; Modification of the profil and deconnexion : 
+<img width="206" height="342" alt="profil_adaction" src="https://github.com/user-attachments/assets/d015867a-fe02-4876-82d0-87eaa7133fb4" />
 
-### Lint with [ESLint](https://eslint.org/)
 
-```sh
-npm run lint
-```
